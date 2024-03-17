@@ -137,6 +137,7 @@
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="Bill.cpp" />
     <ClCompile Include="Brick.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -155,6 +156,7 @@
     <ClInclude Include="Animations.h" />
     <ClInclude Include="Bill.h" />
     <ClInclude Include="Brick.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />

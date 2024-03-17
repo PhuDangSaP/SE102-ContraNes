@@ -8,6 +8,7 @@
 
 #include "Texture.h"
 #include "KeyEventHandler.h"
+#include "Camera.h"
 
 #define MAX_FRAME_RATE 60
 #define KEYBOARD_BUFFER_SIZE 1024
@@ -41,6 +42,8 @@ class CGame
 	LPKEYEVENTHANDLER keyHandler;
 
 	HINSTANCE hInstance;
+
+	Camera* cam;
 
 public:
 	// Init DirectX, Sprite Handler
@@ -79,6 +82,8 @@ public:
 
 	int GetBackBufferWidth() { return backBufferWidth; }
 	int GetBackBufferHeight() { return backBufferHeight; }
+
+	Camera* GetCam() { return this->cam; }
 
 	static CGame* GetInstance();
 

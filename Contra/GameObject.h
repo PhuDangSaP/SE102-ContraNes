@@ -21,6 +21,8 @@ protected:
 	int state;									
 public: 
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
+	float GetX() { return this->x; }
+	float GetY() { return this->y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
 
 	void SetState(int state) { this->state = state; }

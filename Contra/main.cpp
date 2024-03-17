@@ -1,4 +1,4 @@
-/* =============================================================
+﻿/* =============================================================
 	INTRODUCTION TO GAME PROGRAMMING SE102
 	
 	SAMPLE 03 - KEYBOARD AND OBJECT STATE
@@ -310,23 +310,26 @@ void LoadResources()
 	ani->Add(11126);
 	animations->Add(ID_ANI_ENEMY_WALKING_LEFT, ani);
 
-	bill = new CBill(MARIO_START_X, MARIO_START_Y);
+	// stage1
+	LPTEXTURE texStage1 = textures->Get(ID_TEX_STAGE1);
+	sprites->Add(20001, 31, 105, 63, 135, texStage1);// ground
+	
+	sprites->Add(20003, 31, 72, 63, 104, texStage1);// tree
+	
+
+	platform = new Platform(50, 105, 32, 23, 20001);
+	objects.push_back(platform);
+	
+	/*platform = new Platform(50, 72, 32, 23, 20003);
+	objects.push_back(platform);*/
+
+
+	bill = new CBill(10, 70);
 	objects.push_back(bill);
 	enemy = new CEnemy(100.0f, 150.0f);
 	objects.push_back(enemy);
 
-	// stage1
-	LPTEXTURE texStage1 = textures->Get(ID_TEX_STAGE1);
-	sprites->Add(20001, 31, 105, 63, 120, texStage1);// ground
-	sprites->Add(20002, 31, 120, 63, 135, texStage1);// dirt
-	sprites->Add(20003, 31, 72, 63, 104, texStage1);// tree
-	
-	platform = new Platform(50, 105, 32, 23, 20001);
-	objects.push_back(platform);
-	platform = new Platform(50, 120, 32, 23, 20002);
-	objects.push_back(platform);
-	platform = new Platform(50, 72, 32, 23, 20003);
-	objects.push_back(platform);
+
 	
 	mario = new CMario(MARIO_START_X, MARIO_START_Y);
 	//objects.push_back(mario)
@@ -342,10 +345,18 @@ void Update(DWORD dt)
 	{
 		objects[i]->Update(dt);
 	}
+
+	CGame* g = CGame::GetInstance();
+	if (bill->GetX() > g->GetBackBufferWidth()/2 + g->GetCam()->GetX())
+	{
+		float newCamX = bill->GetX() - g->GetBackBufferWidth()/2;
+		g->GetCam()->SetPosition(newCamX, bill->GetY());
+	}
 }
 
 void Render()
 {
+	CTextures* textures = CTextures::GetInstance();
 	CGame* g = CGame::GetInstance();
 
 	ID3D10Device* pD3DDevice = g->GetDirect3DDevice();
@@ -360,6 +371,7 @@ void Render()
 	FLOAT NewBlendFactor[4] = { 0,0,0,0 };
 	pD3DDevice->OMSetBlendState(g->GetAlphaBlending(), BACKGROUND_COLOR, 0xffffffff);
 
+	g->Draw(2455/2, 244/2, textures->Get(ID_TEX_STAGE1), NULL);
 	for (int i = 0; i < (int)objects.size(); i++)
 	{
 		objects[i]->Render();

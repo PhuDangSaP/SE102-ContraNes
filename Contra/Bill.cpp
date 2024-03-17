@@ -6,13 +6,14 @@ void CBill::Update(DWORD dt)
 	
 	vy = Gravity;
 	Jump();*/
+
 	x += vx * dt;
 	//y += vy * dt;
 
-	if (vx > 0 && x > 300) x = 300;
+	/*if (vx > 0 && x > 300) x = 300;
 	if (vx < 0 && x < 5) x = 5;
 	if (vy > 0 && y > 185) y = 185;
-	if (vy < 0 && y < 15) y = 15;
+	if (vy < 0 && y < 15) y = 15;*/
 }
 
 void CBill::Render()
@@ -179,7 +180,7 @@ void CBill::UpdateState(D3DXVECTOR2 dir)
 			ny = -1;
 			vx = 0;
 		}
-		else 
+		else
 		{
 			vx = 0;
 			ny = 0;
@@ -188,7 +189,7 @@ void CBill::UpdateState(D3DXVECTOR2 dir)
 		
 	}
 
-
+	//vx *= dir.x;
 
 }
 

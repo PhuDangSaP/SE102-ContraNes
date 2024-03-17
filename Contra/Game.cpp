@@ -97,7 +97,7 @@ void CGame::Init(HWND hWnd, HINSTANCE hInstance)
 
 	D3DXMATRIX matProjection;
 
-	// Create the projection matrix using the values in the viewport
+	 //Create the projection matrix using the values in the viewport
 	D3DXMatrixOrthoOffCenterLH(&matProjection,
 		(float)viewPort.TopLeftX,
 		(float)viewPort.Width,
@@ -122,6 +122,9 @@ void CGame::Init(HWND hWnd, HINSTANCE hInstance)
 	pD3DDevice->CreateBlendState(&StateDesc, &this->pBlendStateAlpha);
 
 	DebugOut((wchar_t*)L"[INFO] InitDirectX has been successful\n");
+
+	// init camera
+	cam = new Camera(0,0);
 
 	return;
 }
@@ -182,7 +185,7 @@ void CGame::Draw(float x, float y, LPTEXTURE tex, RECT* rect)
 	D3DXMATRIX matTranslation;
 
 	// Create the translation matrix
-	D3DXMatrixTranslation(&matTranslation, x, (backBufferHeight - y), 0.1f);
+	D3DXMatrixTranslation(&matTranslation, x-cam->GetX(), (backBufferHeight - y), 0.1f);
 
 	// Scale the sprite to its correct width and height because by default, DirectX draws it with width = height = 1.0f 
 	D3DXMATRIX matScaling;
