@@ -37,7 +37,6 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 void CSampleKeyHandler::KeyState(BYTE *states)
 {
 	CGame* game = CGame::GetInstance();	
-
 	D3DXVECTOR2 dir =  D3DXVECTOR2(0, 0);
 
 	if (game->IsKeyDown(DIK_RIGHT))

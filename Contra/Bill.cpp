@@ -117,6 +117,47 @@ void CBill::SetState(int state)
 
 void CBill::UpdateState(D3DXVECTOR2 dir)
 {
+	/*CGame* game = CGame::GetInstance();
+
+	if (game->IsKeyDown(DIK_RIGHT))
+	{
+		if (state != BILL_STATE_LIEING && state != BILL_STATE_JUMP)
+			state = BILL_STATE_WALKING_RIGHT;
+		nx = 1;
+	}
+	else if (game->IsKeyDown(DIK_LEFT))
+	{
+		if (state != BILL_STATE_LIEING && state != BILL_STATE_JUMP)
+			state = BILL_STATE_WALKING_LEFT;
+		nx = -1;
+	}
+
+
+	if (game->IsKeyDown(DIK_UP))
+	{
+		if (state == BILL_STATE_LIEING||state==BILL_STATE_JUMP)
+			return;
+		if (state == BILL_STATE_WALKING_RIGHT || state == BILL_STATE_WALKING_LEFT)
+			ny = 1;
+		else
+			state = BILL_STATE_LOOKUP;
+	}
+	else if (game->IsKeyDown(DIK_DOWN))
+	{
+		if (state == BILL_STATE_JUMP)
+			return;
+		if (state == BILL_STATE_WALKING_RIGHT || state == BILL_STATE_WALKING_LEFT)
+			ny = -1;
+		else
+			state = BILL_STATE_LIEING;
+	}
+	else
+	{
+		ny = 0;
+	}*/
+		
+	
+	
 	if (dir.x > 0)
 	{
 		if (dir.y > 0)
@@ -188,8 +229,7 @@ void CBill::UpdateState(D3DXVECTOR2 dir)
 		}		
 		
 	}
-
-	//vx *= dir.x;
+	CGameObject::SetState(state);
 
 }
 
