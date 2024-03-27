@@ -33,7 +33,7 @@ public:
 
 	virtual void Update(DWORD dt) = 0;
 	virtual void Render() = 0;
-	~CGameObject();
+	~CGameObject() {};
 };
 
 typedef CGameObject* LPGAMEOBJECT;

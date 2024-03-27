@@ -37,7 +37,7 @@
 #define BACKGROUND_COLOR D3DXCOLOR (200.0f/255, 200.0f/255, 255.0f/255, 0.0f)
 
 #define SCREEN_WIDTH 320
-#define SCREEN_HEIGHT 240
+#define SCREEN_HEIGHT 260//240
 
 #define ID_TEX_MARIO 0
 #define ID_TEX_ENEMY 10
@@ -45,9 +45,10 @@
 #define ID_TEX_BILL 30
 #define ID_TEX_STAGE1 41
 
+
 #define ID_TEX_BILL 555
 #define ID_TEX_CONTRA_ENEMY 111
-
+#define ID_TEX_BULLET 707
 #define ID_SPRITE_BRICK 20001
 
 #define TEXTURES_DIR L"textures"
@@ -56,6 +57,7 @@
 #define TEXTURE_PATH_BILL TEXTURES_DIR "\\Players2.png"
 #define TEXTURE_PATH_CONTRA_ENEMY TEXTURES_DIR "\\Enemies2.png"
 #define TEXTURE_PATH_STAGE1 TEXTURES_DIR "\\Stage1.png"
+#define TEXTURE_PATH_BULLET TEXTURES_DIR "\\Bullet.png"
 
 #define MARIO_START_X 200.0f
 #define MARIO_START_Y 100.0f
@@ -100,6 +102,7 @@ void LoadResources()
 	textures->Add(ID_TEX_BILL, TEXTURE_PATH_BILL);
 	textures->Add(ID_TEX_CONTRA_ENEMY, TEXTURE_PATH_CONTRA_ENEMY);
 	textures->Add(ID_TEX_STAGE1, TEXTURE_PATH_STAGE1);
+	textures->Add(ID_TEX_BULLET, TEXTURE_PATH_BULLET);
 
 	CSprites * sprites = CSprites::GetInstance();
 	CAnimations * animations = CAnimations::GetInstance();
@@ -142,6 +145,103 @@ void LoadResources()
 	sprites->Add(9105, 285, 89, 304, 123, texBill);
 	sprites->Add(9106, 353, 89, 368, 123, texBill);
 	
+	//walking right look down
+	sprites->Add(9111, 415, 89, 435, 123, texBill);
+	sprites->Add(9112, 480, 89, 500, 123, texBill);
+	sprites->Add(9113, 545, 89, 565, 123, texBill);
+	sprites->Add(9114, 610, 89, 630, 123, texBill);
+	sprites->Add(9115, 675, 89, 695, 123, texBill);
+	sprites->Add(9116, 740, 89, 760, 123, texBill);
+
+	//walking right shooting
+	sprites->Add(9121, 415, 25, 439, 58, texBill);
+	sprites->Add(9122, 480, 26, 504, 58, texBill);
+	sprites->Add(9123, 547, 25, 569, 58, texBill);
+	sprites->Add(9124, 610, 26, 634, 58, texBill);
+	sprites->Add(9125, 675, 27, 699, 58, texBill);
+	
+
+
+	//walking left look up 
+	sprites->Add(9201, 43, 89, 25, 123, texBill);
+	sprites->Add(9202, 109, 89, 90, 123, texBill);
+	sprites->Add(9203, 175, 89, 157, 123, texBill);
+	sprites->Add(9204, 237, 89, 220, 123, texBill);
+	sprites->Add(9205, 304, 89, 285, 123, texBill);
+	sprites->Add(9206, 368, 89, 353, 123, texBill);
+
+	
+	//walking left look down
+	sprites->Add(9211, 435, 89, 415, 123, texBill);
+	sprites->Add(9212, 500, 89, 480, 123, texBill);
+	sprites->Add(9213, 565, 89, 545, 123, texBill);
+	sprites->Add(9214, 630, 89, 610, 123, texBill);
+	sprites->Add(9215, 695, 89, 675, 123, texBill);
+	sprites->Add(9216, 760, 89, 740, 123, texBill);
+
+	//walking left shooting
+	sprites->Add(9221, 439, 25, 415, 58, texBill);
+	sprites->Add(9222, 504, 26, 480, 58, texBill);
+	sprites->Add(9223, 569, 25, 547, 58, texBill);
+	sprites->Add(9224, 634, 26, 610, 58, texBill);
+	sprites->Add(9225, 699, 27, 675, 58, texBill);
+
+	// jump
+	sprites->Add(9500, 805, 98, 820, 117, texBill);
+	sprites->Add(9501, 868, 99, 886, 114, texBill);
+	sprites->Add(9502, 935, 96, 950, 115, texBill);
+	sprites->Add(9503, 9999, 99, 1017, 114, texBill);
+
+	// look up right
+	sprites->Add(9400, 806, 14, 821, 58, texBill);
+
+	//look up right shooting
+	sprites->Add(9401, 873, 15, 886, 58, texBill);
+
+	// look up left
+	sprites->Add(9402, 821, 14, 806, 58, texBill);
+
+	//look up left shooting
+	sprites->Add(9403, 886, 15, 873, 58, texBill);
+
+	// lieing right
+	sprites->Add(9300, 927, 43, 958, 58, texBill);
+
+	// lieing right shooting
+	sprites->Add(9301, 991, 43, 1023, 58, texBill);
+
+	// lieing left
+	sprites->Add(9302, 958, 43, 927, 58, texBill);
+
+	// lieing left shooting
+	sprites->Add(9303, 1023, 43, 991, 58, texBill);	
+	
+
+	ani = new CAnimation(100);
+	ani->Add(9500);
+	ani->Add(9501);
+	ani->Add(9502);
+	ani->Add(9503);
+	animations->Add(ID_ANI_BILL_JUMP, ani);
+
+
+	ani = new CAnimation(100);
+	ani->Add(9001);
+	animations->Add(ID_ANI_BILL_IDLE_RIGHT, ani);
+
+	ani = new CAnimation(100);
+	ani->Add(9002);
+	animations->Add(ID_ANI_BILL_IDLE_LEFT, ani);
+
+	ani = new CAnimation(150);
+	ani->Add(9011);
+	ani->Add(9012);
+	ani->Add(9013);
+	ani->Add(9014);
+	ani->Add(9015);
+	ani->Add(9016);
+	animations->Add(ID_ANI_BILL_WALKING_RIGHT, ani);
+
 	ani = new CAnimation(150);
 	ani->Add(9101);
 	ani->Add(9102);
@@ -150,13 +250,6 @@ void LoadResources()
 	ani->Add(9105);
 	ani->Add(9106);
 	animations->Add(ID_ANI_BILL_WALKING_RIGHT_LOOKUP, ani);
-	//walking right look down
-	sprites->Add(9111, 415, 89, 435, 123, texBill);
-	sprites->Add(9112, 480, 89, 500, 123, texBill);
-	sprites->Add(9113, 545, 89, 565, 123, texBill);
-	sprites->Add(9114, 610, 89, 630, 123, texBill);
-	sprites->Add(9115, 675, 89, 695, 123, texBill);
-	sprites->Add(9116, 740, 89, 760, 123, texBill);
 
 	ani = new CAnimation(150);
 	ani->Add(9111);
@@ -167,13 +260,22 @@ void LoadResources()
 	ani->Add(9116);
 	animations->Add(ID_ANI_BILL_WALKING_RIGHT_LOOKDOWN, ani);
 
-	//walking left look up 
-	sprites->Add(9201, 43, 89, 25, 123, texBill);
-	sprites->Add(9202, 109, 89, 90, 123, texBill);
-	sprites->Add(9203, 175, 89, 157, 123, texBill);
-	sprites->Add(9204, 237, 89, 220, 123, texBill);
-	sprites->Add(9205, 304, 89, 285, 123, texBill);
-	sprites->Add(9206, 368, 89, 353, 123, texBill);
+	ani = new CAnimation(150);
+	ani->Add(9121);
+	ani->Add(9122);
+	ani->Add(9123);
+	ani->Add(9124);
+	ani->Add(9125);
+	animations->Add(ID_ANI_BILL_WALKING_RIGHT_SHOOTING, ani);
+
+	ani = new CAnimation(150);
+	ani->Add(9021);
+	ani->Add(9022);
+	ani->Add(9023);
+	ani->Add(9024);
+	ani->Add(9025);
+	ani->Add(9026);
+	animations->Add(ID_ANI_BILL_WALKING_LEFT, ani);
 
 	ani = new CAnimation(150);
 	ani->Add(9201);
@@ -183,13 +285,6 @@ void LoadResources()
 	ani->Add(9205);
 	ani->Add(9206);
 	animations->Add(ID_ANI_BILL_WALKING_LEFT_LOOKUP, ani);
-	//walking left look down
-	sprites->Add(9211, 435, 89, 415, 123, texBill);
-	sprites->Add(9212, 500, 89, 480, 123, texBill);
-	sprites->Add(9213, 565, 89, 545, 123, texBill);
-	sprites->Add(9214, 630, 89, 610, 123, texBill);
-	sprites->Add(9215, 695, 89, 675, 123, texBill);
-	sprites->Add(9216, 760, 89, 740, 123, texBill);
 
 	ani = new CAnimation(150);
 	ani->Add(9211);
@@ -200,80 +295,62 @@ void LoadResources()
 	ani->Add(9216);
 	animations->Add(ID_ANI_BILL_WALKING_LEFT_LOOKDOWN, ani);
 
-	// lieing right
-	sprites->Add(9300, 919, 43, 958, 58, texBill);
+	ani = new CAnimation(150);
+	ani->Add(9221);
+	ani->Add(9222);
+	ani->Add(9223);
+	ani->Add(9224);
+	ani->Add(9225);
+	animations->Add(ID_ANI_BILL_WALKING_LEFT_SHOOTING, ani);
+
+	ani = new CAnimation(150);
+	ani->Add(9400);
+	animations->Add(ID_ANI_BILL_LOOKUP_RIGHT, ani);
+
+	ani = new CAnimation(150);
+	ani->Add(9400);
+	ani->Add(9401);
+	animations->Add(ID_ANI_BILL_LOOKUP_RIGHT_SHOOTING, ani);
+
+	ani = new CAnimation(150);
+	ani->Add(9402);
+	animations->Add(ID_ANI_BILL_LOOKUP_LEFT, ani);
+
+	ani = new CAnimation(150);
+	ani->Add(9402);
+	ani->Add(9403);
+	animations->Add(ID_ANI_BILL_LOOKUP_LEFT_SHOOTING, ani);
+
 	ani = new CAnimation(150);
 	ani->Add(9300);
-	//ani->Add(9301);
 	animations->Add(ID_ANI_BILL_LIEING_RIGHT, ani);
 
-	// lieing left
-	sprites->Add(9302, 958, 42, 919, 57, texBill);
+	ani = new CAnimation(150);
+	ani->Add(9300);
+	ani->Add(9301);
+	animations->Add(ID_ANI_BILL_LIEING_RIGHT_SHOOTING, ani);
+
 	ani = new CAnimation(150);
 	ani->Add(9302);
 	animations->Add(ID_ANI_BILL_LIEING_LEFT, ani);
 
-	// look up
-	sprites->Add(9400, 806, 13, 821, 58, texBill);
 	ani = new CAnimation(150);
-	ani->Add(9400);
-	animations->Add(ID_ANI_BILL_LOOKUP, ani);
+	ani->Add(9302);
+	ani->Add(9303);
+	animations->Add(ID_ANI_BILL_LIEING_LEFT_SHOOTING, ani);
 
-	// jump
-	sprites->Add(9500, 805, 98, 820, 117, texBill);
-	sprites->Add(9501, 868, 99, 886, 114, texBill);
-	sprites->Add(9502, 935, 96, 950, 115, texBill);
-	sprites->Add(9503, 9999, 99, 1017, 114, texBill);
-	ani = new CAnimation(100);
-	ani->Add(9500);
-	ani->Add(9501);
-	ani->Add(9502);
-	ani->Add(9503);
-	animations->Add(ID_ANI_BILL_JUMP, ani);
-
-
-	// enemy
-	ani = new CAnimation(100);
-	ani->Add(9001);
-	animations->Add(ID_ANI_BILL_IDLE_RIGHT, ani);
-	//animations->Add(ID_ANI_ENEMY_IDLE_RIGHT, ani);
-
-	ani = new CAnimation(100);
-	ani->Add(9002);
-	animations->Add(ID_ANI_BILL_IDLE_LEFT, ani);
-	//animations->Add(ID_ANI_ENEMY_IDLE_LEFT, ani);
-
-	ani = new CAnimation(150);
-	ani->Add(9011);
-	ani->Add(9012);
-	ani->Add(9013);
-	ani->Add(9014);
-	ani->Add(9015);
-	ani->Add(9016);
-	animations->Add(ID_ANI_BILL_WALKING_RIGHT, ani);
-	//animations->Add(ID_ANI_ENEMY_WALKING_RIGHT, ani);
-
-	ani = new CAnimation(150);
-	ani->Add(9021);
-	ani->Add(9022);
-	ani->Add(9023);
-	ani->Add(9024);
-	ani->Add(9025);
-	ani->Add(9026);
-	animations->Add(ID_ANI_BILL_WALKING_LEFT, ani);
-	//animations->Add(ID_ANI_ENEMY_WALKING_LEFT, ani);
 
 	ani = new CAnimation(450);
 	ani->Add(9031);
 	ani->Add(9032);
 	animations->Add(ID_ANI_BILL_WALKING_UP, ani);
-	//animations->Add(ID_ANI_ENEMY_WALKING_UP, ani);
+
 
 	ani = new CAnimation(450);
 	ani->Add(9041);
 	ani->Add(9042);
 	animations->Add(ID_ANI_BILL_WALKING_DOWN, ani);
-	//animations->Add(ID_ANI_ENEMY_WALKING_DOWN, ani);
+
 
 	LPTEXTURE texEnemy = textures->Get(ID_TEX_CONTRA_ENEMY);
 
@@ -323,8 +400,11 @@ void LoadResources()
 	/*platform = new Platform(50, 72, 32, 23, 20003);
 	objects.push_back(platform);*/
 
+	// bullet
+	LPTEXTURE texBullet = textures->Get(ID_TEX_BULLET);
+	sprites->Add(77777,271,5,275,9, texBullet);
 
-	bill = new CBill(10, 70);
+	bill = new CBill(40, 95);
 	objects.push_back(bill);
 	enemy = new CEnemy(100.0f, 150.0f);
 	objects.push_back(enemy);
@@ -333,6 +413,8 @@ void LoadResources()
 	
 	mario = new CMario(MARIO_START_X, MARIO_START_Y);
 	//objects.push_back(mario)
+
+	
 }
 
 /*
@@ -371,7 +453,8 @@ void Render()
 	FLOAT NewBlendFactor[4] = { 0,0,0,0 };
 	pD3DDevice->OMSetBlendState(g->GetAlphaBlending(), BACKGROUND_COLOR, 0xffffffff);
 
-	g->Draw(2455/2, 244/2, textures->Get(ID_TEX_STAGE1), NULL);
+	g->Draw(3456/2, 245/2, textures->Get(ID_TEX_STAGE1), NULL);
+	
 	for (int i = 0; i < (int)objects.size(); i++)
 	{
 		objects[i]->Render();

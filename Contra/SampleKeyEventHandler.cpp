@@ -17,7 +17,9 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_S:
 		//mario->SetState(MARIO_STATE_JUMP);
 		break;
+
 	}
+	bill->OnKeyDown(KeyCode);
 }
 
 void CSampleKeyHandler::OnKeyUp(int KeyCode)
@@ -32,57 +34,66 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 		//mario->SetState(MARIO_STATE_SIT_RELEASE);
 		break;
 	}
+	bill->OnKeyUp(KeyCode);
 }
 
 void CSampleKeyHandler::KeyState(BYTE *states)
 {
-	CGame* game = CGame::GetInstance();	
-	D3DXVECTOR2 dir =  D3DXVECTOR2(0, 0);
+	//CGame* game = CGame::GetInstance();	
+	//D3DXVECTOR2 dir =  D3DXVECTOR2(0, 0);
 
-	if (game->IsKeyDown(DIK_RIGHT))
-	{
-		/*if (game->IsKeyDown(DIK_A))
-			mario->SetState(MARIO_STATE_RUNNING_RIGHT);
-		else
-			mario->SetState(MARIO_STATE_WALKING_RIGHT);*/
+	//if (game->IsKeyDown(DIK_RIGHT))
+	//{
+	//	/*if (game->IsKeyDown(DIK_A))
+	//		mario->SetState(MARIO_STATE_RUNNING_RIGHT);
+	//	else
+	//		mario->SetState(MARIO_STATE_WALKING_RIGHT);*/
 
-			//bill->SetState(BILL_STATE_WALKING_RIGHT);
-		dir.x = 1;
-	}
-	else if (game->IsKeyDown(DIK_LEFT))
-	{
-		/*if (game->IsKeyDown(DIK_A))
-			mario->SetState(MARIO_STATE_RUNNING_LEFT);
-		else
-			mario->SetState(MARIO_STATE_WALKING_LEFT);*/
+	//		//bill->SetState(BILL_STATE_WALKING_RIGHT);
+	//	dir.x = 1;
+	//}
+	//else if (game->IsKeyDown(DIK_LEFT))
+	//{
+	//	/*if (game->IsKeyDown(DIK_A))
+	//		mario->SetState(MARIO_STATE_RUNNING_LEFT);
+	//	else
+	//		mario->SetState(MARIO_STATE_WALKING_LEFT);*/
 
-			//bill->SetState(BILL_STATE_WALKING_LEFT);
-		dir.x = -1;
-	}
+	//		//bill->SetState(BILL_STATE_WALKING_LEFT);
+	//	dir.x = -1;
+	//}
+	//
+	//if (game->IsKeyDown(DIK_DOWN))
+	//{
+	//	//bill->SetState(BILL_STATE_WALKING_DOWN);
+	//	dir.y = -1;
+	//}
+	//else if (game->IsKeyDown(DIK_UP))
+	//{
+	//	//bill->SetState(BILL_STATE_WALKING_UP);
+	//	dir.y = 1;
+	//}
+
+	///*if (game->IsKeyDown(DIK_SPACE))
+	//{
+	//	bill->Jump();
+	//}*/
+	////else
+	//	//mario->SetState(MARIO_STATE_IDLE);
+	//	//bill->SetState(BILL_STATE_IDLE);
+
+	//// Sitting state has higher priority 
+	///*if (game->IsKeyDown(DIK_DOWN))
+	//{
+	//	mario->SetState(MARIO_STATE_SIT);
+	//}*/
+	//bill->UpdateState(dir);
+
+	//if (game->IsKeyDown(DIK_Z))
+	//{
+	//	bill->Shoot();
+	//}
 	
-	if (game->IsKeyDown(DIK_DOWN))
-	{
-		//bill->SetState(BILL_STATE_WALKING_DOWN);
-		dir.y = -1;
-	}
-	else if (game->IsKeyDown(DIK_UP))
-	{
-		//bill->SetState(BILL_STATE_WALKING_UP);
-		dir.y = 1;
-	}
+	bill->InputHandler(states);
 
-	/*if (game->IsKeyDown(DIK_SPACE))
-	{
-		bill->Jump();
-	}*/
-	//else
-		//mario->SetState(MARIO_STATE_IDLE);
-		//bill->SetState(BILL_STATE_IDLE);
-
-	// Sitting state has higher priority 
-	/*if (game->IsKeyDown(DIK_DOWN))
-	{
-		mario->SetState(MARIO_STATE_SIT);
-	}*/
-		bill->UpdateState(dir);
 }

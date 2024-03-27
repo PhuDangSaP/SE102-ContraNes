@@ -84,6 +84,7 @@ public:
 	int GetBackBufferHeight() { return backBufferHeight; }
 
 	Camera* GetCam() { return this->cam; }
+	LPKEYEVENTHANDLER GetKeyEventHandler() { return this->keyHandler; }
 
 	static CGame* GetInstance();
 
