@@ -1,4 +1,4 @@
-ï»¿#include "debug.h"
+#include "debug.h"
 #include "Game.h"
 
 CGame* CGame::__instance = NULL;
@@ -14,11 +14,10 @@ void CGame::Init(HWND hWnd, HINSTANCE hInstance)
 	this->hInstance = hInstance;
 
 	// retrieve client area width & height so that we can create backbuffer height & width accordingly 
-	RECT r;
-	GetClientRect(hWnd, &r);
-
-	backBufferWidth = r.right + 1;
-	backBufferHeight = r.bottom + 1;
+	//RECT r;
+	//GetClientRect(hWnd, &r);
+	backBufferWidth = SCREEN_WIDTH;
+	backBufferHeight = SCREEN_HEIGHT;
 
 	// Create & clear the DXGI_SWAP_CHAIN_DESC structure
 	DXGI_SWAP_CHAIN_DESC swapChainDesc;
@@ -97,7 +96,7 @@ void CGame::Init(HWND hWnd, HINSTANCE hInstance)
 
 	D3DXMATRIX matProjection;
 
-	 //Create the projection matrix using the values in the viewport
+	// Create the projection matrix using the values in the viewport
 	D3DXMatrixOrthoOffCenterLH(&matProjection,
 		(float)viewPort.TopLeftX,
 		(float)viewPort.Width,
@@ -123,9 +122,6 @@ void CGame::Init(HWND hWnd, HINSTANCE hInstance)
 
 	DebugOut((wchar_t*)L"[INFO] InitDirectX has been successful\n");
 
-	// init camera
-	cam = new Camera(0,0);
-
 	return;
 }
 
@@ -143,7 +139,7 @@ void CGame::Draw(float x, float y, LPTEXTURE tex, RECT* rect)
 
 	D3DX10_SPRITE sprite;
 
-	// Set the spriteâ€™s shader resource view
+	// Set the sprite’s shader resource view
 	sprite.pTexture = tex->getShaderResourceView();
 
 	if (rect == NULL)
@@ -185,14 +181,13 @@ void CGame::Draw(float x, float y, LPTEXTURE tex, RECT* rect)
 	D3DXMATRIX matTranslation;
 
 	// Create the translation matrix
-	//D3DXMatrixTranslation(&matTranslation, x-cam->GetX(), (backBufferHeight - y), 0.1f);
+	D3DXMatrixTranslation(&matTranslation, x, (backBufferHeight - y), 0.1f);
 
-	D3DXMatrixTranslation(&matTranslation, x - cam->GetX(), (backBufferHeight - y), 0.1f);
 	// Scale the sprite to its correct width and height because by default, DirectX draws it with width = height = 1.0f 
 	D3DXMATRIX matScaling;
 	D3DXMatrixScaling(&matScaling, (FLOAT)spriteWidth, (FLOAT)spriteHeight, 1.0f);
 
-	// Setting the spriteâ€™s position and size
+	// Setting the sprite’s position and size
 	sprite.matWorld = (matScaling * matTranslation);
 
 	spriteObject->DrawSpritesImmediate(&sprite, 1, 0, 0);

@@ -14,6 +14,9 @@
 #define KEYBOARD_BUFFER_SIZE 1024
 #define KEYBOARD_STATE_SIZE 256
 
+#define SCREEN_WIDTH 254
+#define SCREEN_HEIGHT 223
+
 
 /*
 	Our simple game framework
@@ -43,7 +46,7 @@ class CGame
 
 	HINSTANCE hInstance;
 
-	Camera* cam;
+	Camera* cam = new Camera();
 
 public:
 	// Init DirectX, Sprite Handler
@@ -83,10 +86,9 @@ public:
 	int GetBackBufferWidth() { return backBufferWidth; }
 	int GetBackBufferHeight() { return backBufferHeight; }
 
-	Camera* GetCam() { return this->cam; }
-	LPKEYEVENTHANDLER GetKeyEventHandler() { return this->keyHandler; }
-
 	static CGame* GetInstance();
+
+	Camera* GetCamera() { return this->cam; }
 
 	~CGame();
 };

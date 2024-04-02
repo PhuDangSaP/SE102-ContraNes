@@ -15,19 +15,20 @@ protected:
 	float vx;
 	float vy;
 
-	int nx;	 
+	int nx;
 	int ny;
 
-	int state;									
+	int state;		
+	bool isMovable = false;
 public: 
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
-	float GetX() { return this->x; }
-	float GetY() { return this->y; }
+	void GetPosition(float& x, float& y) { x = this->x; y = this->y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
 
 	void SetState(int state) { this->state = state; }
 	int GetState() { return this->state; }
 
+	bool GetIsMovable() { return this->isMovable; }
 	CGameObject();
 	CGameObject(float x, float y):CGameObject() { this->x = x; this->y = y; }
 

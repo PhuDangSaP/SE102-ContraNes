@@ -1,4 +1,4 @@
-﻿#include "Sprite.h"
+#include "Sprite.h"
 
 CSprite::CSprite(int id, int left, int top, int right, int bottom, LPTEXTURE tex)
 {
@@ -9,7 +9,7 @@ CSprite::CSprite(int id, int left, int top, int right, int bottom, LPTEXTURE tex
 	this->bottom = bottom;
 	this->texture = tex;
 
-	// Set the sprite’s shader resource view
+	// Set the sprite�s shader resource view
 	sprite.pTexture = tex->getShaderResourceView();
 
 	sprite.TexCoord.x = this->left / (float)tex->getWidth();
@@ -23,6 +23,7 @@ CSprite::CSprite(int id, int left, int top, int right, int bottom, LPTEXTURE tex
 
 	sprite.ColorModulate = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	sprite.TextureIndex = 0;
+	
 	if (spriteWidth < 0)
 	{
 		if (spriteHeight < 0)
@@ -32,29 +33,31 @@ CSprite::CSprite(int id, int left, int top, int right, int bottom, LPTEXTURE tex
 		else {
 			D3DXMatrixScaling(&this->matScaling, -(FLOAT)spriteWidth, (FLOAT)spriteHeight, 1.0f);
 		}
-		
+
 	}
 	else
 	{
-		D3DXMatrixScaling(&this->matScaling, (FLOAT)spriteWidth, (FLOAT)spriteHeight, 1.0f);
+		if (spriteHeight < 0)
+		{
+			D3DXMatrixScaling(&this->matScaling, (FLOAT)spriteWidth, -(FLOAT)spriteHeight, 1.0f);
+		}
+		else {
+			D3DXMatrixScaling(&this->matScaling, (FLOAT)spriteWidth, (FLOAT)spriteHeight, 1.0f);
+		}
 	}
-	
 }
 
 void CSprite::Draw(float x, float y)
 {
 	CGame* g = CGame::GetInstance();
-
-	// Tính ma trận quay
-	D3DXMATRIX matRotation;
-	D3DXMatrixRotationY(&matRotation, D3DXToRadian(0));
-
+	float cx, cy;
+	g->GetCamera()->GetCamPos(cx, cy);
 	D3DXMATRIX matTranslation;
+	D3DXMatrixTranslation(&matTranslation, x - cx, y - cy, 0.1f);
 
-	D3DXMatrixTranslation(&matTranslation, x -g->GetCam()->GetX(), (g->GetBackBufferHeight() - y), 0.1f);
-	this->sprite.matWorld = (matRotation* this->matScaling * matTranslation);
+	this->sprite.matWorld = (this->matScaling * matTranslation);
+
 
 	g->GetSpriteHandler()->DrawSpritesImmediate(&sprite, 1, 0, 0);
-	
 }
 

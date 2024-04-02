@@ -21,9 +21,6 @@
     <ClCompile Include="Animations.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Brick.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="debug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -34,9 +31,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Mario.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SampleKeyEventHandler.cpp">
@@ -54,16 +48,16 @@
     <ClCompile Include="Bill.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
+    <ClCompile Include="Soldier.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Platform.cpp">
+    <ClCompile Include="Background.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
+    <ClCompile Include="Sniper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp">
+    <ClCompile Include="WallTurret.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -75,9 +69,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Animations.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Brick.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="debug.h">
@@ -92,37 +83,40 @@
     <ClInclude Include="KeyEventHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Mario.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SampleKeyEventHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Sprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Textures.h">
+    <ClInclude Include="Sprites.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Sprites.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Bill.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Platform.h">
+    <ClInclude Include="Textures.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
+    <ClInclude Include="Bill.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Soldier.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Background.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sniper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WallTurret.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
