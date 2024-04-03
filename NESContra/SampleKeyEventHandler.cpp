@@ -10,12 +10,12 @@ extern CBill* bill;
 void CSampleKeyHandler::OnKeyDown(int KeyCode)
 {
 	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
-	/*switch (KeyCode)
+	switch (KeyCode)
 	{
-	case DIK_S:
-		mario->SetState(MARIO_STATE_JUMP);
+	case DIK_X:
+		bill->RequestState(BILL_STATE_JUMP);
 		break;
-	}*/
+	}
 }
 
 void CSampleKeyHandler::OnKeyUp(int KeyCode)

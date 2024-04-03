@@ -4,8 +4,14 @@ void CBill::Update(DWORD dt)
 {
 	x += vx * dt;
 	y += vy * dt;
-
+	vy -= GRAVITY * dt;
 	if (x < 10) { x = 10; }
+	if (y < 130)
+	{
+		vy = 0; 
+		y = 130;
+		isGrounded = true;
+	}
 }
 
 void CBill::Render()
@@ -72,6 +78,16 @@ void CBill::Render()
 			aniId = ID_ANI_BILL_WALKING_LOOKING_DOWN_LEFT;
 		}
 		break;
+	case BILL_STATE_JUMP:
+		if (this->nx >= 0)
+		{
+			aniId = ID_ANI_BILL_JUMP_RIGHT;
+		}
+		else
+		{
+			aniId = ID_ANI_BILL_JUMP_LEFT;
+		}
+		break;
 	default:
 		aniId = ID_ANI_BILL_IDLE_RIGHT;
 	}
@@ -105,6 +121,11 @@ void CBill::RequestState(int reqState)
 			ny = -1;
 			finalState = reqState;
 			break;
+		case BILL_STATE_JUMP:
+			vy += BILL_JUMP_SPEED;
+			isGrounded = false;
+			finalState = reqState;
+			break;
 		}
 		break;
 	case BILL_STATE_WALKING_LEFT:
@@ -126,6 +147,11 @@ void CBill::RequestState(int reqState)
 		case BILL_STATE_LYING_DOWN:
 			ny = -1;
 			finalState = BILL_STATE_WALKING_LOOK_DOWN;
+			break;
+		case BILL_STATE_JUMP:
+			vy += BILL_JUMP_SPEED;
+			isGrounded = false;
+			finalState = reqState;
 			break;
 		}
 		break;
@@ -149,6 +175,11 @@ void CBill::RequestState(int reqState)
 			ny = -1;
 			finalState = BILL_STATE_WALKING_LOOK_DOWN;
 			break;
+		case BILL_STATE_JUMP:
+			vy += BILL_JUMP_SPEED;
+			isGrounded = false;
+			finalState = reqState;
+			break;
 		}
 		break;
 	case BILL_STATE_LOOKING_UP:
@@ -170,6 +201,11 @@ void CBill::RequestState(int reqState)
 			break;
 		case BILL_STATE_LYING_DOWN:
 			ny = -1;
+			finalState = reqState;
+			break;
+		case BILL_STATE_JUMP:
+			vy += BILL_JUMP_SPEED;
+			isGrounded = false;
 			finalState = reqState;
 			break;
 		}
@@ -214,6 +250,11 @@ void CBill::RequestState(int reqState)
 			ny = -1;
 			finalState = BILL_STATE_WALKING_LOOK_DOWN;
 			break;
+		case BILL_STATE_JUMP:
+			vy += BILL_JUMP_SPEED;
+			isGrounded = false;
+			finalState = reqState;
+			break;
 		}
 		break;
 	case BILL_STATE_WALKING_LOOK_DOWN:
@@ -232,6 +273,56 @@ void CBill::RequestState(int reqState)
 			vx = 0;
 			ny = -1;
 			finalState = reqState;
+			break;
+		case BILL_STATE_JUMP:
+			vy += BILL_JUMP_SPEED;
+			isGrounded = false;
+			finalState = reqState;
+			break;
+		}
+		break;
+	case BILL_STATE_JUMP:
+		switch (reqState) 
+		{
+		case BILL_STATE_IDLE:
+			if (isGrounded)
+			{
+				vy = 0;
+				vx = 0;
+				finalState = reqState;
+			}
+			break;
+		case BILL_STATE_WALKING_LEFT:
+			nx = -1;
+			vx = -BILL_WALKING_SPEED;
+			if (isGrounded)
+			{
+				finalState = reqState;
+			}
+			break;
+		case BILL_STATE_WALKING_RIGHT:
+			nx = 1;
+			vx = BILL_WALKING_SPEED;
+			if (isGrounded)
+			{
+				finalState = reqState;
+			}
+			break;
+		case BILL_STATE_LOOKING_UP:
+			if (isGrounded)
+			{
+				vx = 0;
+				ny = 1;
+				finalState = reqState;
+			}
+			break;
+		case BILL_STATE_LYING_DOWN:
+			if (isGrounded)
+			{
+				vx = 0;
+				ny = -1;
+				finalState = reqState;
+			}
 			break;
 		}
 		break;

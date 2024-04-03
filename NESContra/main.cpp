@@ -157,6 +157,19 @@ void LoadResources()
 	sprites->Add(9085, 695, 91, 675, 123, texBill);
 	sprites->Add(9086, 760, 90, 740, 124, texBill);
 
+	//BILL JUMPING
+	//RIGHT
+	sprites->Add(9091, 805, 98, 820, 117, texBill);
+	sprites->Add(9092, 868, 99, 886, 114, texBill);
+	sprites->Add(9093, 935, 96, 950, 115, texBill);
+	sprites->Add(9094, 999, 99, 1017, 114, texBill);
+
+	//LEFT
+	sprites->Add(9095, 820, 98, 805, 117, texBill);
+	sprites->Add(9096, 886, 99, 868, 114, texBill);
+	sprites->Add(9097, 950, 96, 935, 115, texBill);
+	sprites->Add(9098, 1017, 99, 999, 114, texBill);
+
 	ani = new CAnimation(100);
 	ani->Add(9001);
 	animations->Add(ID_ANI_BILL_IDLE_RIGHT, ani);
@@ -235,7 +248,21 @@ void LoadResources()
 	ani->Add(9086);
 	animations->Add(ID_ANI_BILL_WALKING_LOOKING_DOWN_LEFT, ani);
 
-	bill = new CBill(BILL_START_X, BILL_START_Y);
+	ani = new CAnimation(75);
+	ani->Add(9091);
+	ani->Add(9092);
+	ani->Add(9093);
+	ani->Add(9094);
+	animations->Add(ID_ANI_BILL_JUMP_RIGHT, ani);
+
+	ani = new CAnimation(75);
+	ani->Add(9095);
+	ani->Add(9096);
+	ani->Add(9097);
+	ani->Add(9098);
+	animations->Add(ID_ANI_BILL_JUMP_LEFT, ani);
+
+	bill = new CBill(BILL_START_X - 50, BILL_START_Y + 50);
 	//objects.push_back(bill);
 
 	//SOLDIER IDLE RIGHT AND LEFT
