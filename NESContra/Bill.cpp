@@ -81,7 +81,166 @@ void CBill::Render()
 void CBill::RequestState(int reqState)
 {
 	int finalState = this->state;
-	switch (reqState)
+
+	switch (this->state)
+	{
+	case BILL_STATE_IDLE:
+		switch (reqState)
+		{
+		case BILL_STATE_WALKING_LEFT:
+			vx = -BILL_WALKING_SPEED;
+			nx = -1;
+			finalState = reqState;
+			break;
+		case BILL_STATE_WALKING_RIGHT:
+			vx = BILL_WALKING_SPEED;
+			nx = 1;
+			finalState = reqState;
+			break;
+		case BILL_STATE_LOOKING_UP:
+			ny = 1;
+			finalState = reqState;
+			break;
+		case BILL_STATE_LYING_DOWN:
+			ny = -1;
+			finalState = reqState;
+			break;
+		}
+		break;
+	case BILL_STATE_WALKING_LEFT:
+		switch (reqState)
+		{
+		case BILL_STATE_IDLE:
+			vx = 0;
+			finalState = reqState;
+			break;
+		case BILL_STATE_WALKING_RIGHT:
+			vx = BILL_WALKING_SPEED;
+			nx = 1;
+			finalState = reqState;
+			break;
+		case BILL_STATE_LOOKING_UP:
+			ny = 1;
+			finalState = BILL_STATE_WALKING_LOOK_UP;
+			break;
+		case BILL_STATE_LYING_DOWN:
+			ny = -1;
+			finalState = BILL_STATE_WALKING_LOOK_DOWN;
+			break;
+		}
+		break;
+	case BILL_STATE_WALKING_RIGHT:
+		switch (reqState)
+		{
+		case BILL_STATE_IDLE:
+			vx = 0;
+			finalState = reqState;
+			break;
+		case BILL_STATE_WALKING_LEFT:
+			vx = -BILL_WALKING_SPEED;
+			nx = -1;
+			finalState = reqState;
+			break;
+		case BILL_STATE_LOOKING_UP:
+			ny = 1;
+			finalState = BILL_STATE_WALKING_LOOK_UP;
+			break;
+		case BILL_STATE_LYING_DOWN:
+			ny = -1;
+			finalState = BILL_STATE_WALKING_LOOK_DOWN;
+			break;
+		}
+		break;
+	case BILL_STATE_LOOKING_UP:
+		switch (reqState)
+		{
+		case BILL_STATE_IDLE:
+			ny = 0;
+			finalState = reqState;
+			break;
+		case BILL_STATE_WALKING_RIGHT:
+			vx = BILL_WALKING_SPEED;
+			nx = 1;
+			finalState = BILL_STATE_WALKING_LOOK_UP;
+			break;
+		case BILL_STATE_WALKING_LEFT:
+			vx = -BILL_WALKING_SPEED;
+			nx = -1;
+			finalState = BILL_STATE_WALKING_LOOK_UP;
+			break;
+		case BILL_STATE_LYING_DOWN:
+			ny = -1;
+			finalState = reqState;
+			break;
+		}
+		break;
+	case BILL_STATE_LYING_DOWN:
+		switch (reqState)
+		{
+		case BILL_STATE_IDLE:
+			ny = 0;
+			finalState = reqState;
+			break;
+		case BILL_STATE_WALKING_RIGHT:
+			vx = BILL_WALKING_SPEED;
+			nx = 1;
+			finalState = BILL_STATE_WALKING_LOOK_DOWN;
+			break;
+		case BILL_STATE_WALKING_LEFT:
+			vx = -BILL_WALKING_SPEED;
+			nx = -1;
+			finalState = BILL_STATE_WALKING_LOOK_DOWN;
+			break;
+		case BILL_STATE_LOOKING_UP:
+			ny = 1;
+			finalState = reqState;
+			break;
+		}
+		break;
+	case BILL_STATE_WALKING_LOOK_UP:
+		switch (reqState)
+		{
+		case BILL_STATE_IDLE:
+			vx = 0;
+			ny = 0;
+			finalState = reqState;
+			break;
+		case BILL_STATE_LOOKING_UP:
+			vx = 0;
+			ny = 1;
+			finalState = reqState;
+			break;
+		case BILL_STATE_LYING_DOWN:
+			ny = -1;
+			finalState = BILL_STATE_WALKING_LOOK_DOWN;
+			break;
+		}
+		break;
+	case BILL_STATE_WALKING_LOOK_DOWN:
+		switch (reqState)
+		{
+		case BILL_STATE_IDLE:
+			vx = 0;
+			ny = 0;
+			finalState = reqState;
+			break;
+		case BILL_STATE_LOOKING_UP:
+			ny = 1;
+			finalState = BILL_STATE_WALKING_LOOK_UP;
+			break;
+		case BILL_STATE_LYING_DOWN:
+			vx = 0;
+			ny = -1;
+			finalState = reqState;
+			break;
+		}
+		break;
+	}
+
+
+
+
+	/*switch (reqState)
 	{
 	case BILL_STATE_WALKING_RIGHT:
 		if (ny != 0)
@@ -150,6 +309,6 @@ void CBill::RequestState(int reqState)
 		vx = 0;
 		ny = 0;
 		break;
-	}
+	}*/
 	CGameObject::SetState(finalState);
 }

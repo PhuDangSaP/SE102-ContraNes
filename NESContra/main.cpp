@@ -594,7 +594,6 @@ void LoadResources()
 */
 void Update(DWORD dt)
 {
-	
 	objects.clear();
 	root->GetObjectColliderWithWiewport(root, objects);
 	CGame* g = CGame::GetInstance();
@@ -603,13 +602,7 @@ void Update(DWORD dt)
 	{
 		objects[i]->Update(dt);
 	}
-	float cx = 0, cy = 0;
-	bill->GetPos(cx, cy);
-	
-	cx -= SCREEN_WIDTH / 2;
-	cy = 0;
-	if (cx < 0) { cx = 0; }
-	g->GetCamera()->SetCamPos(cx, cy);
+	g->GetCamera()->Update();
 }
 
 void Render()

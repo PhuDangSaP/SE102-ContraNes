@@ -12,6 +12,7 @@
 #define BILL_STATE_LYING_DOWN			400
 #define BILL_STATE_WALKING_LOOK_UP		500
 #define BILL_STATE_WALKING_LOOK_DOWN	600
+#define BILL_STATE_AIRBORNE
 
 
 #pragma region ANIMATION_ID
@@ -29,6 +30,7 @@
 #define ID_ANI_BILL_WALKING_LOOKING_UP_LEFT 1107
 #define ID_ANI_BILL_WALKING_LOOKING_DOWN_RIGHT 1108
 #define ID_ANI_BILL_WALKING_LOOKING_DOWN_LEFT 1109
+#define ID_ANI_BILL_AIRBORNE	1110
 
 class CBill : public CGameObject
 {
@@ -36,6 +38,8 @@ public:
 	CBill(float x, float y) : CGameObject(x, y)
 	{
 		ny = 0;
+		SetState(BILL_STATE_IDLE);
+		nx = 1;
 		isMovable = true;
 	}
 	void RequestState(int state);
