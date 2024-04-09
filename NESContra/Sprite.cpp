@@ -61,3 +61,13 @@ void CSprite::Draw(float x, float y)
 	g->GetSpriteHandler()->DrawSpritesImmediate(&sprite, 1, 0, 0);
 }
 
+RECT CSprite::GetRect()
+{
+	RECT rect;
+	rect.left = 0;
+	rect.right = this->right-this->left;
+	rect.top = 0;
+	rect.bottom = this->bottom-this->top;
+	return rect;
+}
+

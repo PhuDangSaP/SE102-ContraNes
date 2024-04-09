@@ -1,17 +1,28 @@
 #include "Bill.h"
 
+
+
 void CBill::Update(DWORD dt)
 {
+	CGame* g = CGame::GetInstance();
 	x += vx * dt;
 	y += vy * dt;
 	vy -= GRAVITY * dt;
+
+	/*float camX, camY;
+	g->GetCamera()->GetCamPos(camX, camY);
+	if (x < camX)
+		x = camX ;*/
 	if (x < 10) { x = 10; }
+	
+
 	if (y < 130)
 	{
 		vy = 0; 
 		y = 130;
 		isGrounded = true;
 	}
+	
 }
 
 void CBill::Render()
@@ -92,6 +103,12 @@ void CBill::Render()
 		aniId = ID_ANI_BILL_IDLE_RIGHT;
 	}
 	animations->Get(aniId)->Render(x, y + d);
+}
+
+RECT CBill::GetRect()
+{
+	RECT rect;
+	return rect;
 }
 
 void CBill::RequestState(int reqState)

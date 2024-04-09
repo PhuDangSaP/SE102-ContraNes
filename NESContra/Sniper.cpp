@@ -107,6 +107,11 @@ void CSniper::Render()
 	animations->Get(aniId)->Render(x, y);
 }
 
+RECT CSniper::GetRect()
+{
+	return CSprites::GetInstance()->Get(7001)->GetRect();
+}
+
 void CSniper::RequestState(int reqState)
 {
 	

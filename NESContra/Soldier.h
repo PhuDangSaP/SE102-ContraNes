@@ -34,4 +34,5 @@ public:
 private:
 	void Update(DWORD dt);
 	void Render();
+	RECT GetRect();
 };

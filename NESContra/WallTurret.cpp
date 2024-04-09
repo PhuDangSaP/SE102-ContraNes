@@ -93,6 +93,11 @@ void CWallTurret::Render()
 	animations->Get(aniId)->Render(x, y);
 }
 
+RECT CWallTurret::GetRect()
+{
+	return CSprites::GetInstance()->Get(6001)->GetRect();
+}
+
 void CWallTurret::RequestState(int reqState)
 {
 	/*int finalState;

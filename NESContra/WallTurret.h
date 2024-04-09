@@ -42,4 +42,5 @@ private:
 	void Render();
 	long openTimer = 500;
 	float angle;
+	RECT GetRect();
 };

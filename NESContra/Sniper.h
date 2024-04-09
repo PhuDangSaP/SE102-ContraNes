@@ -32,10 +32,12 @@ public:
 		state = SNIPER_STATE_SHOOT;
 		nx = -1;
 		ny = 0;
+		isMovable = false;
 	}
 	void RequestState(int state);
 	void GetPos(float& x, float& y) { x = this->x; y = this->y; }
 private:
 	void Update(DWORD dt);
 	void Render();
+	RECT GetRect();
 };

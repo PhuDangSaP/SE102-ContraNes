@@ -601,16 +601,16 @@ void LoadResources()
 	ani->Add(6042);
 	animations->Add(ID_ANI_TURRET_ACTIVE_11_OCLOCK, ani);
 
-	/*wT = new CWallTurret(1264, 71);
+	wT = new CWallTurret(1264, 71);
 	objects.push_back(wT);
 	wT = new CWallTurret(1647.1, 102.5);
 	objects.push_back(wT);
 	wT = new CWallTurret(1839, 102.5);
-	objects.push_back(wT);*/
+	objects.push_back(wT);
 	
 	root = new World(0, 0, 3455, 223);
 	root->SetObjects(objects);
-	root->Build(root);
+	root->Build();
 	
 	objects.clear();
 }
@@ -622,7 +622,7 @@ void LoadResources()
 void Update(DWORD dt)
 {
 	objects.clear();
-	root->GetObjectColliderWithWiewport(root, objects);
+	root->GetObjectColliderWithWiewport( objects);
 	CGame* g = CGame::GetInstance();
 	bill->Update(dt);
 	for (int i = 0; i < (int)objects.size(); i++)
@@ -663,7 +663,7 @@ void Render()
 	for (LPGAMEOBJECT obj : objects)
 	{
 		if (obj->GetIsMovable())
-			root->AddObjectToTree(obj,root);
+			root->AddObjectToTree(obj);
 	}
 
 	spriteHandler->End();

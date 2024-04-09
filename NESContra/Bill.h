@@ -52,7 +52,7 @@ public:
 	void GetPos(float& x, float& y) { x = this->x; y = this->y; }
 	bool fireIsletGo = true;
 	//void Fire();
-
 	void Update(DWORD dt);
 	void Render();
+	RECT GetRect();
 };

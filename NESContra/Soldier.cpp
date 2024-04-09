@@ -47,6 +47,11 @@ void CSoldier::Render()
 	animations->Get(aniId)->Render(x, y);
 }
 
+RECT CSoldier::GetRect()
+{
+	return CSprites::GetInstance()->Get(8001)->GetRect();
+}
+
 void CSoldier::RequestState(int reqState)
 {
 	int finalState;
