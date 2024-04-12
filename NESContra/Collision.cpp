@@ -5,8 +5,8 @@
 
 LPCOLLISIONEVENT Collision::SweptAABB(LPGAMEOBJECT objSrc, DWORD dt, LPGAMEOBJECT objDest)
 {
-	float dx_entry = 999999, dx_exit, tx_entry, tx_exit;
-	float dy_entry = 999999, dy_exit, ty_entry, ty_exit;
+	float dx_entry, dx_exit, tx_entry, tx_exit;
+	float dy_entry, dy_exit, ty_entry, ty_exit;
 
 	float t_entry;
 	float t_exit;
@@ -28,9 +28,10 @@ LPCOLLISIONEVENT Collision::SweptAABB(LPGAMEOBJECT objSrc, DWORD dt, LPGAMEOBJEC
 	float dx = Sdx - Ddx;
 	float dy = Sdy - Ddy;
 
-	
+
 	RECT srcRect = objSrc->GetBoundingBox();
 	RECT destRect = objDest->GetBoundingBox();
+
 
 	// AABB
 	float srcX, srcY;
@@ -39,29 +40,48 @@ LPCOLLISIONEVENT Collision::SweptAABB(LPGAMEOBJECT objSrc, DWORD dt, LPGAMEOBJEC
 	objSrc->GetPosition(srcX, srcY);
 	objDest->GetPosition(destX, destY);
 
+	RECT rect; // cộng thêm 1 khoảng sau khi di chuyển
+	rect.left = dx > 0 ? srcRect.left : srcRect.left + dx;
+	rect.right = dx > 0 ? srcRect.right + dx : srcRect.right;
+	rect.top = dy > 0 ? srcRect.top + dy : srcRect.top;
+	rect.bottom = dy > 0 ? srcRect.bottom : srcRect.bottom + dy;
+
+	if (srcX > 180)
+	{
+		RECT dsadsa = srcRect;
+		RECT ddsada = destRect;
+	}
+
+	if (!IsColliding(rect, destRect))
+		return NULL;
+
+	if (dx == 0 && dy == 0)
+		return NULL;
+
+
 
 	if (dx > 0)
 	{
-		dx_entry = (destX - destRect.right / 2) - (srcX + srcRect.right / 2);
-		dx_exit = (destX + destRect.right / 2) - (srcX - srcRect.right / 2);
+		dx_entry = destRect.left - srcRect.right;
+		dx_exit = destRect.right - srcRect.left;
 	}
 	else if (dx < 0)
 	{
-		dx_entry = (destX + destRect.right / 2) - (srcX - srcRect.right / 2);
-		dx_exit = (destX - destRect.right / 2) - (srcX + srcRect.right / 2);
+		dx_entry = destRect.right - srcRect.left;
+		dx_exit = destRect.left - srcRect.right;
 	}
 
 
 	if (dy > 0)
 	{
-		dy_entry = (destY - destRect.bottom / 2) - (srcY + srcRect.bottom / 2);
-		dy_exit = (destY + destRect.bottom / 2) - (srcY - srcRect.bottom / 2);
+		dy_entry = destRect.bottom - srcRect.top;
+		dy_exit = destRect.top - srcRect.bottom;
 
 	}
 	else if (dy < 0)
 	{
-		dy_entry = (destY + destRect.bottom / 2) - (srcY - srcRect.bottom / 2);
-		dy_exit = (destY - destRect.bottom / 2) - (srcY + srcRect.bottom / 2);
+		dy_entry = destRect.top - srcRect.bottom;
+		dy_exit = destRect.bottom - srcRect.top;
 
 	}
 
@@ -92,11 +112,13 @@ LPCOLLISIONEVENT Collision::SweptAABB(LPGAMEOBJECT objSrc, DWORD dt, LPGAMEOBJEC
 	t_entry = max(tx_entry, ty_entry);
 	t_exit = min(tx_exit, ty_exit);
 
+
 	if (t_entry > t_exit || t_entry > 1.0f || t_entry < 0.0f)
 	{
 		return nullptr;
 	}
 	t = t_entry;
+
 	// lấy hướng va chạm
 	if (tx_entry > ty_entry)
 	{
@@ -139,6 +161,11 @@ void Collision::Scan(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* objDes
 		else
 			delete e;
 	}
+}
+
+bool Collision::IsColliding(RECT objSrc, RECT objDest)
+{
+	return !(objDest.left > objSrc.right || objDest.right < objSrc.left || objDest.top < objSrc.bottom || objDest.bottom > objSrc.top);
 }
 
 void Collision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* coObjects)

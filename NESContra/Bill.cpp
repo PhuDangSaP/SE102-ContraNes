@@ -465,6 +465,11 @@ RECT CBill::GetBoundingBox()
 		rect = sprites->Get(9001)->GetBoundingBox();
 		break;
 	}
+
+	rect.left = x - rect.right / 2;
+	rect.right = x + rect.right / 2;
+	rect.top+= y + rect.bottom / 2;
+	rect.bottom = y - rect.bottom / 2;
 	return rect;
 }
 

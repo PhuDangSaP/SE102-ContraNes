@@ -23,7 +23,7 @@ void CSoldier::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	/*x += vx * dt;
 	y += vy * dt;*/
 
-	/*vx = 0;*/
+	//vx = 0;
 	if (x < 0)
 	{
 		x = 0;
@@ -76,6 +76,10 @@ RECT CSoldier::GetBoundingBox()
 {
 	RECT rect;
 	rect= CSprites::GetInstance()->Get(8001)->GetRect();
+	rect.left = x - rect.right / 2;
+	rect.right = x + rect.right / 2;
+	rect.top += y + rect.bottom / 2;
+	rect.bottom = y - rect.bottom / 2;
 	return rect;
 }
 
