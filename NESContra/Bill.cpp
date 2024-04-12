@@ -28,6 +28,8 @@ void CBill::Update(DWORD dt)
 
 void CBill::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (isGrounded)
+		vy = 0;
 	Collision::Process(this, dt, coObjects);
 
 	/*x += vx * dt;
@@ -471,4 +473,15 @@ void CBill::OnNoCollision(DWORD dt)
 	x += vx * dt;
 	y += vy * dt;
 	vy -= GRAVITY * dt;
+	if (y < 130)
+	{
+		vy = 0;
+		y = 130;
+		isGrounded = true;
+	}
+}
+
+void CBill::OnCollisionWith(LPCOLLISIONEVENT e)
+{
+	MessageBox(NULL, L"Collide", L"Collide", MB_OK); 
 }

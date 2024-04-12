@@ -59,5 +59,5 @@ public:
 	RECT GetBoundingBox();
 	int IsCollidable() { return 1 ;}
 	void OnNoCollision(DWORD dt);
-	void OnCollisionWith(LPCOLLISIONEVENT e) { MessageBox(NULL, L"Collide", L"Collide", MB_OK); }
+	void OnCollisionWith(LPCOLLISIONEVENT e);
 };
