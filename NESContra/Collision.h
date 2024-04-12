@@ -37,6 +37,7 @@ class Collision
 public:
 	static LPCOLLISIONEVENT SweptAABB(LPGAMEOBJECT objSrc, DWORD dt, LPGAMEOBJECT objDest);
 	static void Scan(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* objDests, vector<LPCOLLISIONEVENT>& coEvents);
+	static bool IsColliding(RECT objSrc, RECT objDest);
 	static void Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 
 };

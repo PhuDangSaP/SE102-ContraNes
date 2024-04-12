@@ -28,6 +28,8 @@ void CBill::Update(DWORD dt)
 
 void CBill::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (isGrounded)
+		vy = 0;
 	Collision::Process(this, dt, coObjects);
 
 	/*x += vx * dt;
@@ -463,6 +465,11 @@ RECT CBill::GetBoundingBox()
 		rect = sprites->Get(9001)->GetBoundingBox();
 		break;
 	}
+
+	rect.left = x - rect.right / 2;
+	rect.right = x + rect.right / 2;
+	rect.top+= y + rect.bottom / 2;
+	rect.bottom = y - rect.bottom / 2;
 	return rect;
 }
 
@@ -471,4 +478,15 @@ void CBill::OnNoCollision(DWORD dt)
 	x += vx * dt;
 	y += vy * dt;
 	vy -= GRAVITY * dt;
+	if (y < 130)
+	{
+		vy = 0;
+		y = 130;
+		isGrounded = true;
+	}
+}
+
+void CBill::OnCollisionWith(LPCOLLISIONEVENT e)
+{
+	MessageBox(NULL, L"Collide", L"Collide", MB_OK); 
 }

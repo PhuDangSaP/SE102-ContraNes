@@ -317,6 +317,9 @@ void LoadResources()
 	soldier = new CSoldier(BILL_START_X+100, BILL_START_Y );
 	objects.push_back(soldier);
 
+	soldier = new CSoldier(BILL_START_X +10, BILL_START_Y+50);
+	//objects.push_back(soldier);
+
 	//LEVEL1
 	//SECTION1
 	sprites->Add(101, 0, 0, 690, 223, texLevel1);
