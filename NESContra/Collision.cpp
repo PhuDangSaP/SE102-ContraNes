@@ -48,8 +48,8 @@ LPCOLLISIONEVENT Collision::SweptAABB(LPGAMEOBJECT objSrc, DWORD dt, LPGAMEOBJEC
 	}
 	else
 	{
-		dx_entry = (destX + destRect.right / 2) - (srcX - srcRect.right / 2);
-		dx_exit = (destX - destRect.right / 2) - (srcX + srcRect.right - 2);
+		dx_entry = (srcX - srcRect.right / 2) - (destX + destRect.right / 2);
+		dx_exit = (srcX + srcRect.right / 2) - (destX - destRect.right / 2);
 	}
 
 	if (dy > 0)
@@ -59,8 +59,8 @@ LPCOLLISIONEVENT Collision::SweptAABB(LPGAMEOBJECT objSrc, DWORD dt, LPGAMEOBJEC
 	}
 	else
 	{
-		dy_entry = (destY + destRect.bottom / 2) - (srcY - srcRect.bottom / 2);
-		dy_exit = (destY - destRect.bottom / 2) - (srcY + srcRect.bottom - 2);
+		dy_entry = (srcY - srcRect.bottom / 2) - (destY + destRect.bottom / 2);
+		dy_exit = (srcY + srcRect.bottom / 2) - (destY - destRect.bottom / 2);
 	}
 
 	if (dx == 0)
