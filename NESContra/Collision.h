@@ -30,7 +30,7 @@ struct CollisionEvent
 		this->dir = dir;
 		this->isDeleted = false;
 	}
-	bool WasCollided() { return t >= 0.0f && t <= 1.0f; } // t > 1 : frame tiếp theo vẫn chưa va chạm
+	bool WasCollided() { return t >= 0.0f && t <= 1.0f; } // t > 1 : frame tiếp theo vẫn chưa va chạm, t<0 là đang va chạm
 };
 class Collision
 {
