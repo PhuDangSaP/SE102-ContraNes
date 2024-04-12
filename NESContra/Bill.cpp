@@ -1,5 +1,5 @@
 #include "Bill.h"
-
+#include "Collision.h"
 
 
 void CBill::Update(DWORD dt)
@@ -14,11 +14,37 @@ void CBill::Update(DWORD dt)
 	if (x < camX)
 		x = camX ;*/
 	if (x < 10) { x = 10; }
-	
+
 
 	if (y < 130)
 	{
-		vy = 0; 
+		vy = 0;
+		y = 130;
+		isGrounded = true;
+	}
+	
+
+}
+
+void CBill::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+{
+	Collision::Process(this, dt, coObjects);
+
+	/*x += vx * dt;
+	y += vy * dt;
+	vy -= GRAVITY * dt;*/
+
+	/*float camX, camY;
+	g->GetCamera()->GetCamPos(camX, camY);
+	if (x < camX)
+		x = camX ;*/
+
+	if (x < 10) { x = 10; }
+
+
+	if (y < 130)
+	{
+		vy = 0;
 		y = 130;
 		isGrounded = true;
 	}
@@ -103,12 +129,6 @@ void CBill::Render()
 		aniId = ID_ANI_BILL_IDLE_RIGHT;
 	}
 	animations->Get(aniId)->Render(x, y + d);
-}
-
-RECT CBill::GetRect()
-{
-	RECT rect;
-	return rect;
 }
 
 void CBill::RequestState(int reqState)
@@ -299,7 +319,7 @@ void CBill::RequestState(int reqState)
 		}
 		break;
 	case BILL_STATE_JUMP:
-		switch (reqState) 
+		switch (reqState)
 		{
 		case BILL_STATE_IDLE:
 			if (isGrounded)
@@ -419,4 +439,36 @@ void CBill::RequestState(int reqState)
 		break;
 	}*/
 	CGameObject::SetState(finalState);
+}
+
+RECT CBill::GetRect()
+{
+	RECT rect;
+	return rect;
+}
+
+RECT CBill::GetBoundingBox()
+{
+	CSprites* sprites = CSprites::GetInstance();
+	RECT rect;
+	switch (state)
+	{
+	case BILL_STATE_JUMP:
+		rect = sprites->Get(9091)->GetBoundingBox();
+		break;
+	case BILL_STATE_LYING_DOWN:
+		rect = sprites->Get(9041)->GetBoundingBox();
+		break;
+	default:
+		rect = sprites->Get(9001)->GetBoundingBox();
+		break;
+	}
+	return rect;
+}
+
+void CBill::OnNoCollision(DWORD dt)
+{
+	x += vx * dt;
+	y += vy * dt;
+	vy -= GRAVITY * dt;
 }

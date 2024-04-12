@@ -98,6 +98,11 @@ RECT CWallTurret::GetRect()
 	return CSprites::GetInstance()->Get(6001)->GetRect();
 }
 
+RECT CWallTurret::GetBoundingBox()
+{
+	return RECT();
+}
+
 void CWallTurret::RequestState(int reqState)
 {
 	/*int finalState;

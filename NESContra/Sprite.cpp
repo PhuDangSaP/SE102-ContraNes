@@ -71,3 +71,13 @@ RECT CSprite::GetRect()
 	return rect;
 }
 
+RECT CSprite::GetBoundingBox()
+{
+	RECT rect;
+	rect.left = 0;
+	rect.right = this->right - this->left;
+	rect.top = 0;
+	rect.bottom = this->bottom - this->top;
+	return rect;
+}
+

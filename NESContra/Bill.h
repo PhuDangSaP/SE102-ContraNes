@@ -53,6 +53,11 @@ public:
 	bool fireIsletGo = true;
 	//void Fire();
 	void Update(DWORD dt);
+	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 	RECT GetRect();
+	RECT GetBoundingBox();
+	int IsCollidable() { return 1 ;}
+	void OnNoCollision(DWORD dt);
+	void OnCollisionWith(LPCOLLISIONEVENT e) { MessageBox(NULL, L"Collide", L"Collide", MB_OK); }
 };

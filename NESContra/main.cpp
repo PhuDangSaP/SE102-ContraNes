@@ -25,6 +25,7 @@
 #include "Soldier.h"
 #include "Sniper.h"
 #include "WallTurret.h"
+#include "Platform.h"
 #include "Background.h"
 
 #include "World.h"
@@ -60,6 +61,7 @@ CSoldier* soldier = NULL;
 CSniper* sniper = NULL;
 CWallTurret* wT = NULL;
 World* root = NULL;
+Platform* grass = NULL;
 
 CSampleKeyHandler* keyHandler;
 
@@ -263,6 +265,7 @@ void LoadResources()
 	animations->Add(ID_ANI_BILL_JUMP_LEFT, ani);
 
 	bill = new CBill(BILL_START_X - 50, BILL_START_Y + 50);
+	
 	//objects.push_back(bill);
 
 	//SOLDIER IDLE RIGHT AND LEFT
@@ -311,7 +314,7 @@ void LoadResources()
 	ani->Add(8026);
 	animations->Add(ID_ANI_SOLDIER_WALKING_LEFT, ani);
 
-	soldier = new CSoldier(BILL_START_X, BILL_START_Y - 50);
+	soldier = new CSoldier(BILL_START_X+100, BILL_START_Y );
 	objects.push_back(soldier);
 
 	//LEVEL1
@@ -435,7 +438,7 @@ void LoadResources()
 	ani->Add(7012);
 	animations->Add(ID_ANI_SNIPER_SHOOT_BOTTOM_LEFT, ani);
 
-	sniper = new CSniper(250, 50);
+	/*sniper = new CSniper(250, 50);
 	objects.push_back(sniper);
 	sniper = new CSniper(320, 36);
 	objects.push_back(sniper);
@@ -444,7 +447,7 @@ void LoadResources()
 	sniper = new CSniper(1278, 130);
 	objects.push_back(sniper);
 	sniper = new CSniper(2486, 103);
-	objects.push_back(sniper);
+	objects.push_back(sniper);*/
 
 	//WALLTURRET IDLE
 	sprites->Add(6001, 39, 106, 70, 137, texTurret);
@@ -607,7 +610,12 @@ void LoadResources()
 	objects.push_back(wT);
 	wT = new CWallTurret(1839, 102.5);
 	objects.push_back(wT);
-	
+
+	sprites->Add(17000, 31, 105, 46, 119, texLevel1); // grass begin
+	sprites->Add(17001, 47, 105, 62, 119, texLevel1); // grass end
+	grass = new Platform(31, 120, 15, 14, 2, 17000,17000,17001);
+	//objects.push_back(grass);
+
 	root = new World(0, 0, 3455, 223);
 	root->SetObjects(objects);
 	root->Build();
@@ -624,11 +632,21 @@ void Update(DWORD dt)
 	objects.clear();
 	root->GetObjectColliderWithWiewport( objects);
 	CGame* g = CGame::GetInstance();
-	bill->Update(dt);
-	for (int i = 0; i < (int)objects.size(); i++)
+	vector<LPGAMEOBJECT> coObjects;
+	for (size_t i = 1; i < objects.size(); i++)
 	{
-		objects[i]->Update(dt);
+		coObjects.push_back(objects[i]);
 	}
+
+	for (size_t i = 0; i < objects.size(); i++)
+	{
+		coObjects.erase(remove(coObjects.begin(), coObjects.end(), objects[i]), coObjects.end());
+
+		objects[i]->Update(dt, &coObjects);
+
+		coObjects.push_back(objects[i]);
+	}
+	bill->Update(dt, &coObjects);
 	g->GetCamera()->Update();
 }
 

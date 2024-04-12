@@ -20,6 +20,7 @@ public:
 
 	void Draw(float x, float y);
 	RECT GetRect();
+	RECT GetBoundingBox();
 };
 
 typedef CSprite* LPSPRITE;

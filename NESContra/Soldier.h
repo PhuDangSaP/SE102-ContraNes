@@ -33,6 +33,11 @@ public:
 	void GetPos(float& x, float& y) { x = this->x; y = this->y; }
 private:
 	void Update(DWORD dt);
+	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 	RECT GetRect();
+	RECT GetBoundingBox();
+	int IsCollidable() { return 1; }
+	void OnNoCollision(DWORD dt);
+	void OnCollisionWith(LPCOLLISIONEVENT e) {};
 };

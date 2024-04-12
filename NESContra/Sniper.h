@@ -36,8 +36,10 @@ public:
 	}
 	void RequestState(int state);
 	void GetPos(float& x, float& y) { x = this->x; y = this->y; }
+	RECT GetRect();
+	RECT GetBoundingBox();
 private:
 	void Update(DWORD dt);
 	void Render();
-	RECT GetRect();
+	
 };

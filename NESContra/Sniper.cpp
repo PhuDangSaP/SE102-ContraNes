@@ -112,6 +112,11 @@ RECT CSniper::GetRect()
 	return CSprites::GetInstance()->Get(7001)->GetRect();
 }
 
+RECT CSniper::GetBoundingBox()
+{
+	return RECT();
+}
+
 void CSniper::RequestState(int reqState)
 {
 	

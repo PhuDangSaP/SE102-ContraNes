@@ -43,4 +43,5 @@ private:
 	long openTimer = 500;
 	float angle;
 	RECT GetRect();
+	RECT GetBoundingBox();
 };

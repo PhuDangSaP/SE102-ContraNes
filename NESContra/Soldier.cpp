@@ -17,6 +17,25 @@ void CSoldier::Update(DWORD dt)
 	}
 }
 
+void CSoldier::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+{
+	Collision::Process(this, dt, coObjects);
+	/*x += vx * dt;
+	y += vy * dt;*/
+
+	if (x < 0)
+	{
+		x = 0;
+		vx = -vx;
+	}
+	if (x > 400)
+	{
+		x = 400;
+		vx = -vx;
+	}
+	
+}
+
 void CSoldier::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
@@ -50,6 +69,19 @@ void CSoldier::Render()
 RECT CSoldier::GetRect()
 {
 	return CSprites::GetInstance()->Get(8001)->GetRect();
+}
+
+RECT CSoldier::GetBoundingBox()
+{
+	RECT rect;
+	rect= CSprites::GetInstance()->Get(8001)->GetRect();
+	return rect;
+}
+
+void CSoldier::OnNoCollision(DWORD dt)
+{
+	x += vx * dt;
+	y += vy * dt;
 }
 
 void CSoldier::RequestState(int reqState)
