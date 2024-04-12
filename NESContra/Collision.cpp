@@ -5,8 +5,8 @@
 
 LPCOLLISIONEVENT Collision::SweptAABB(LPGAMEOBJECT objSrc, DWORD dt, LPGAMEOBJECT objDest)
 {
-	float dx_entry, dx_exit, tx_entry, tx_exit;
-	float dy_entry, dy_exit, ty_entry, ty_exit;
+	float dx_entry=999999, dx_exit, tx_entry, tx_exit;
+	float dy_entry=999999, dy_exit, ty_entry, ty_exit;
 
 	float t_entry;
 	float t_exit;
@@ -18,20 +18,19 @@ LPCOLLISIONEVENT Collision::SweptAABB(LPGAMEOBJECT objSrc, DWORD dt, LPGAMEOBJEC
 	objSrc->GetSpeed(Svx, Svy);
 	float Sdx = Svx * dt;
 	float Sdy = Svy * dt;
+	
 
 	float Dvx, Dvy;
 	objDest->GetSpeed(Dvx, Dvy);
 	float Ddx = Dvx * dt;
 	float Ddy = Dvy * dt;
-
-
+	
 	float dx = Sdx - Ddx;
 	float dy = Sdy - Ddy;
 
+	dy = 0;
 	RECT srcRect = objSrc->GetBoundingBox();
 	RECT destRect = objDest->GetBoundingBox();
-
-
 
 	// AABB
 	float srcX, srcY;
@@ -40,24 +39,29 @@ LPCOLLISIONEVENT Collision::SweptAABB(LPGAMEOBJECT objSrc, DWORD dt, LPGAMEOBJEC
 	objSrc->GetPosition(srcX, srcY);
 	objDest->GetPosition(destX, destY);
 
-	
+
+	if (srcX > 182.9)
+	{
+		int alsadlas = 12;
+	}
 	if (dx > 0)
 	{
 		dx_entry = (destX - destRect.right / 2) - (srcX + srcRect.right / 2);
 		dx_exit = (destX + destRect.right / 2) - (srcX - srcRect.right - 2);
 	}
-	else
+	else if (dx < 0)
 	{
 		dx_entry = (srcX - srcRect.right / 2) - (destX + destRect.right / 2);
-		dx_exit = (srcX + srcRect.right / 2) - (destX - destRect.right / 2);
+		dx_exit = -((srcX + srcRect.right / 2) - (destX - destRect.right / 2));
 	}
+
 
 	if (dy > 0)
 	{
 		dy_entry = (destY - destRect.bottom / 2) - (srcY + srcRect.bottom / 2);
 		dy_exit = (destY + destRect.bottom / 2) - (srcY - srcRect.bottom - 2);
 	}
-	else
+	else if (dy < 0)
 	{
 		dy_entry = (srcY - srcRect.bottom / 2) - (destY + destRect.bottom / 2);
 		dy_exit = (srcY + srcRect.bottom / 2) - (destY - destRect.bottom / 2);
@@ -89,7 +93,7 @@ LPCOLLISIONEVENT Collision::SweptAABB(LPGAMEOBJECT objSrc, DWORD dt, LPGAMEOBJEC
 	t_entry = max(tx_entry, ty_entry);
 	t_exit = min(tx_exit, ty_exit);
 
-	if (t_entry > t_exit || t_entry>1.0f)
+	if (t_entry > t_exit || t_entry > 1.0f)
 	{
 		return nullptr;
 	}
