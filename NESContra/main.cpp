@@ -172,6 +172,23 @@ void LoadResources()
 	sprites->Add(9097, 950, 96, 935, 115, texBill);
 	sprites->Add(9098, 1017, 99, 999, 114, texBill);
 
+	//BILL DIE
+	//RIGHT
+	sprites->Add(10001, 825, 162, 804, 179, texBill);
+	sprites->Add(10002, 885, 160, 871, 182, texBill);
+	sprites->Add(10003, 953, 163, 932, 180, texBill);
+	sprites->Add(10004, 1016, 160, 1002, 182, texBill);
+	//LYING
+	sprites->Add(10005, 1023, 243, 992, 252, texBill);
+	//LEFT
+	sprites->Add(10006, 804, 162, 825, 179, texBill);
+	sprites->Add(10007, 871, 160, 885, 182, texBill);
+	sprites->Add(10008, 932, 163, 953, 180, texBill);
+	sprites->Add(10009, 1002, 160, 1016, 182, texBill);
+	//LYING
+	sprites->Add(10010, 992, 243, 1023, 252, texBill);
+
+
 	ani = new CAnimation(100);
 	ani->Add(9001);
 	animations->Add(ID_ANI_BILL_IDLE_RIGHT, ani);
@@ -263,6 +280,28 @@ void LoadResources()
 	ani->Add(9097);
 	ani->Add(9098);
 	animations->Add(ID_ANI_BILL_JUMP_LEFT, ani);
+
+	ani = new CAnimation(75);
+	ani->Add(10001);
+	ani->Add(10002);
+	ani->Add(10003);
+	ani->Add(10004);
+	animations->Add(ID_ANI_BILL_DIE_RIGHT, ani);
+
+	ani = new CAnimation(75);
+	ani->Add(10005);
+	animations->Add(ID_ANI_BILL_DIE_LYING_RIGHT, ani);
+
+	ani = new CAnimation(75);
+	ani->Add(10006);
+	ani->Add(10007);
+	ani->Add(10008);
+	ani->Add(10009);
+	animations->Add(ID_ANI_BILL_DIE_LEFT, ani);
+
+	ani = new CAnimation(75);
+	ani->Add(10010);
+	animations->Add(ID_ANI_BILL_DIE_LYING_LEFT, ani);
 
 	bill = new CBill(BILL_START_X - 50, BILL_START_Y + 50);
 	

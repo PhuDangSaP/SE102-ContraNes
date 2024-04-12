@@ -1,5 +1,6 @@
 #include "Bill.h"
 #include "Collision.h"
+#include "Soldier.h"
 
 
 void CBill::Update(DWORD dt)
@@ -60,6 +61,32 @@ void CBill::Render()
 	float d = 0;
 	if (aniId == -1) aniId = ID_ANI_BILL_IDLE_RIGHT;
 	switch (state) {
+	case BILL_STATE_DIE:
+		if (nx < 0)
+		{
+			if (isGrounded)
+			{
+				aniId = ID_ANI_BILL_DIE_LYING_RIGHT;
+				d = -10;
+			}
+			else
+			{
+				aniId = ID_ANI_BILL_DIE_RIGHT;
+			}
+		}
+		else
+		{
+			if (isGrounded)
+			{
+				aniId = ID_ANI_BILL_DIE_LYING_LEFT;
+				d = -10;
+			}
+			else
+			{
+				aniId = ID_ANI_BILL_DIE_LEFT;
+			}
+		}
+		break;
 	case BILL_STATE_WALKING_RIGHT:
 		aniId = ID_ANI_BILL_WALKING_RIGHT;
 		break;
@@ -133,15 +160,24 @@ void CBill::Render()
 	animations->Get(aniId)->Render(x, y + d);
 }
 
+
+
 void CBill::RequestState(int reqState)
 {
-	int finalState = this->state;
+	if (state == BILL_STATE_DIE)return;
+	int finalState = state;
 
-	switch (this->state)
+	switch (state)
 	{
 	case BILL_STATE_IDLE:
 		switch (reqState)
 		{
+		case BILL_STATE_DIE:
+			vx = -nx * BILL_DEFLECT_SPEED;
+			vy = BILL_DEFLECT_SPEED;
+			isGrounded = false;
+			finalState = reqState;
+			break;
 		case BILL_STATE_WALKING_LEFT:
 			vx = -BILL_WALKING_SPEED;
 			nx = -1;
@@ -170,6 +206,12 @@ void CBill::RequestState(int reqState)
 	case BILL_STATE_WALKING_LEFT:
 		switch (reqState)
 		{
+		case BILL_STATE_DIE:
+			vx = -nx * BILL_DEFLECT_SPEED;
+			vy = BILL_DEFLECT_SPEED;
+			isGrounded = false;
+			finalState = reqState;
+			break;
 		case BILL_STATE_IDLE:
 			vx = 0;
 			finalState = reqState;
@@ -197,6 +239,12 @@ void CBill::RequestState(int reqState)
 	case BILL_STATE_WALKING_RIGHT:
 		switch (reqState)
 		{
+		case BILL_STATE_DIE:
+			vx = -nx * BILL_DEFLECT_SPEED;
+			vy = BILL_DEFLECT_SPEED;
+			isGrounded = false;
+			finalState = reqState;
+			break;
 		case BILL_STATE_IDLE:
 			vx = 0;
 			finalState = reqState;
@@ -224,6 +272,12 @@ void CBill::RequestState(int reqState)
 	case BILL_STATE_LOOKING_UP:
 		switch (reqState)
 		{
+		case BILL_STATE_DIE:
+			vx = -nx * BILL_DEFLECT_SPEED;
+			vy = BILL_DEFLECT_SPEED;
+			isGrounded = false;
+			finalState = reqState;
+			break;
 		case BILL_STATE_IDLE:
 			ny = 0;
 			finalState = reqState;
@@ -252,6 +306,12 @@ void CBill::RequestState(int reqState)
 	case BILL_STATE_LYING_DOWN:
 		switch (reqState)
 		{
+		case BILL_STATE_DIE:
+			vx = -nx * BILL_DEFLECT_SPEED;
+			vy = BILL_DEFLECT_SPEED;
+			isGrounded = false;
+			finalState = reqState;
+			break;
 		case BILL_STATE_IDLE:
 			ny = 0;
 			finalState = reqState;
@@ -275,6 +335,12 @@ void CBill::RequestState(int reqState)
 	case BILL_STATE_WALKING_LOOK_UP:
 		switch (reqState)
 		{
+		case BILL_STATE_DIE:
+			vx = -nx * BILL_DEFLECT_SPEED;
+			vy = BILL_DEFLECT_SPEED;
+			isGrounded = false;
+			finalState = reqState;
+			break;
 		case BILL_STATE_IDLE:
 			vx = 0;
 			ny = 0;
@@ -299,6 +365,12 @@ void CBill::RequestState(int reqState)
 	case BILL_STATE_WALKING_LOOK_DOWN:
 		switch (reqState)
 		{
+		case BILL_STATE_DIE:
+			vx = -nx * BILL_DEFLECT_SPEED;
+			vy = BILL_DEFLECT_SPEED;
+			isGrounded = false;
+			finalState = reqState;
+			break;
 		case BILL_STATE_IDLE:
 			vx = 0;
 			ny = 0;
@@ -323,6 +395,12 @@ void CBill::RequestState(int reqState)
 	case BILL_STATE_JUMP:
 		switch (reqState)
 		{
+		case BILL_STATE_DIE:
+			vx = -nx * BILL_DEFLECT_SPEED;
+			vy = BILL_DEFLECT_SPEED;
+			isGrounded = false;
+			finalState = reqState;
+			break;
 		case BILL_STATE_IDLE:
 			if (isGrounded)
 			{
@@ -461,6 +539,8 @@ RECT CBill::GetBoundingBox()
 	case BILL_STATE_LYING_DOWN:
 		rect = sprites->Get(9041)->GetBoundingBox();
 		break;
+	case BILL_STATE_DIE:
+		rect = sprites->Get(10005)->GetBoundingBox();
 	default:
 		rect = sprites->Get(9001)->GetBoundingBox();
 		break;
@@ -484,9 +564,23 @@ void CBill::OnNoCollision(DWORD dt)
 		y = 130;
 		isGrounded = true;
 	}
+	if (isGrounded && state == BILL_STATE_DIE)
+	{
+		vx = 0;
+	}
 }
 
 void CBill::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	MessageBox(NULL, L"Collide", L"Collide", MB_OK); 
+	//MessageBox(NULL, L"Collide", L"Collide", MB_OK);
+	if (dynamic_cast<CSoldier*>(e->obj))
+		OnCollisionWithSoldier(e);
+}
+
+void CBill::OnCollisionWithSoldier(LPCOLLISIONEVENT e)
+{
+	if (state != BILL_STATE_DIE)
+	{
+		RequestState(BILL_STATE_DIE);
+	}
 }

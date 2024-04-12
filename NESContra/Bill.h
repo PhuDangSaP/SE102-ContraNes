@@ -6,6 +6,7 @@
 #define BILL_WALKING_SPEED		0.065f
 #define BILL_JUMP_SPEED			0.25f
 #define GRAVITY					0.0005f
+#define BILL_DEFLECT_SPEED		0.1f
 
 #define BILL_STATE_IDLE					0
 #define BILL_STATE_WALKING_RIGHT		100
@@ -15,6 +16,7 @@
 #define BILL_STATE_WALKING_LOOK_UP		500
 #define BILL_STATE_WALKING_LOOK_DOWN	600
 #define BILL_STATE_JUMP					700
+#define BILL_STATE_DIE					800
 
 
 #pragma region ANIMATION_ID
@@ -35,10 +37,16 @@
 #define ID_ANI_BILL_JUMP_RIGHT	1110
 #define ID_ANI_BILL_JUMP_LEFT	1111
 
+#define ID_ANI_BILL_DIE_RIGHT	1112
+#define ID_ANI_BILL_DIE_LEFT	1113
+#define ID_ANI_BILL_DIE_LYING_RIGHT	1114
+#define ID_ANI_BILL_DIE_LYING_LEFT	1115
+
 class CBill : public CGameObject
 {
 private:
 	bool isGrounded;
+	void OnCollisionWithSoldier(LPCOLLISIONEVENT e);
 public:
 	CBill(float x, float y) : CGameObject(x, y)
 	{
