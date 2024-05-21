@@ -21,7 +21,7 @@ protected:
 
 	int state;		
 	bool isMovable = false;
-	bool isDeleted;
+	bool isDeleted = false;
 public: 
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
 	void GetPosition(float& x, float& y) { x = this->x; y = this->y; }
@@ -36,7 +36,6 @@ public:
 	CGameObject();
 	CGameObject(float x, float y):CGameObject() { this->x = x; this->y = y; }
 
-	virtual void Update(DWORD dt) = 0;
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL) {};
 	virtual void Render() = 0;
 	virtual RECT GetRect() = 0;
@@ -44,7 +43,7 @@ public:
 
 	virtual void OnNoCollision(DWORD dt) {};
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e) {};
-
+	virtual int IsDirectionColliable(float nx, float ny) { return 1; }
 	virtual int IsBlocking() { return 1; }
 	~CGameObject() {};
 };

@@ -303,7 +303,7 @@ void LoadResources()
 	ani->Add(10010);
 	animations->Add(ID_ANI_BILL_DIE_LYING_LEFT, ani);
 
-	bill = new CBill(BILL_START_X - 50, BILL_START_Y + 50);
+	bill = new CBill(BILL_START_X - 50, BILL_START_Y + 50 + 50);
 	
 	//objects.push_back(bill);
 
@@ -653,10 +653,10 @@ void LoadResources()
 	wT = new CWallTurret(1839, 102.5);
 	objects.push_back(wT);
 
-	sprites->Add(17000, 31, 105, 46, 119, texLevel1); // grass begin
-	sprites->Add(17001, 47, 105, 62, 119, texLevel1); // grass end
-	grass = new Platform(31, 120, 15, 14, 2, 17000,17000,17001);
-	//objects.push_back(grass);
+	sprites->Add(17000, 31, 105, 62, 119, texLevel1); // grass begin
+	//sprites->Add(17001, 47, 105, 62, 119, texLevel1); // grass end
+	grass = new Platform(31, 140, 31, 14, 5, 17000,17000,17000);
+	objects.push_back(grass);
 
 	root = new World(0, 0, 3455, 223);
 	root->SetObjects(objects);

@@ -42,11 +42,24 @@
 #define ID_ANI_BILL_DIE_LYING_RIGHT	1114
 #define ID_ANI_BILL_DIE_LYING_LEFT	1115
 
+#pragma region BBOX_VALUE
+
+#define BILL_STAND_BBOX_WIDTH	24
+#define BILL_STAND_BBOX_HEIGHT	36
+#define BILL_LIE_DOWN_BBOX_WIDTH	32
+#define BILL_LIE_DOWN_BBOX_HEIGHT	16
+#define BILL_JUMP_BBOX_WIDTH	16
+#define BILL_JUMP_BBOX_HEIGHT	16
+
+#define BILL_LIE_DOWN_HEIGHT_ADJUST ((BILL_STAND_BBOX_HEIGHT-BILL_LIE_DOWN_BBOX_HEIGHT)/2)
+
+
 class CBill : public CGameObject
 {
 private:
 	bool isGrounded;
 	void OnCollisionWithSoldier(LPCOLLISIONEVENT e);
+	void OnCollisionWithWallTurret(LPCOLLISIONEVENT e);
 public:
 	CBill(float x, float y) : CGameObject(x, y)
 	{

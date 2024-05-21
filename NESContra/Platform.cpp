@@ -25,10 +25,11 @@ RECT Platform::GetRect()
 
 RECT Platform::GetBoundingBox()
 {
+	float cellWidth_div_2 = this->cellWidth / 2;
 	RECT rect;
-	rect.left = 0;
-	rect.top = 0;
-	rect.right = this->cellWidth * this->length;
-	rect.bottom = this->cellHeight * this->length;
+	rect.left = x - cellWidth_div_2;
+	rect.top = y + this->cellHeight / 2;
+	rect.right = rect.left + this->cellWidth * this->length;
+	rect.bottom = rect.top - this->cellHeight;
 	return rect;
 }

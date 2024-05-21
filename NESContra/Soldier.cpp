@@ -19,7 +19,7 @@ void CSoldier::Update(DWORD dt)
 
 void CSoldier::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	Collision::Process(this, dt, coObjects);
+	CCollision::GetInstance()->Process(this, dt, coObjects);
 	/*x += vx * dt;
 	y += vy * dt;*/
 

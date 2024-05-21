@@ -1,44 +1,87 @@
 ﻿#pragma once
+
+#include <Windows.h>
 #include <vector>
-#include "Game.h"
+#include <algorithm>
+
 using namespace std;
 
 class CGameObject;
 typedef CGameObject* LPGAMEOBJECT;
 
-struct CollisionEvent;
-typedef CollisionEvent* LPCOLLISIONEVENT;
+struct CCollisionEvent;
+typedef CCollisionEvent* LPCOLLISIONEVENT;
 
-enum CollisionDir
+struct CCollisionEvent
 {
-	UP,
-	DOWN,
-	RIGHT,
-	LEFT
-};
+	LPGAMEOBJECT src_obj;		// source object : the object from which to calculate collision
+	LPGAMEOBJECT obj;			// the target object
 
-struct CollisionEvent
-{
-	LPGAMEOBJECT obj; // target obj
-	float t;
-	CollisionDir dir;
+	float t, nx, ny;
+
+	float dx, dy;				// *RELATIVE* movement distance between this object and obj
 	bool isDeleted;
-	CollisionEvent(LPGAMEOBJECT obj, float t, CollisionDir dir)
+
+	CCollisionEvent(float t, float nx, float ny, float dx = 0, float dy = 0,
+		LPGAMEOBJECT obj = NULL, LPGAMEOBJECT src_obj = NULL)
 	{
-		this->obj = obj;
 		this->t = t;
-		this->dir = dir;
+		this->nx = nx;
+		this->ny = ny;
+		this->dx = dx;
+		this->dy = dy;
+		this->obj = obj;
+		this->src_obj = src_obj;
 		this->isDeleted = false;
 	}
-	bool WasCollided() { return t >= 0.0f && t <= 1.0f; } // t > 1 : frame tiếp theo vẫn chưa va chạm, t<0 là đang va chạm
+
+	int WasCollided();
+
+	static bool compare(const LPCOLLISIONEVENT& a, LPCOLLISIONEVENT& b)
+	{
+		return a->t < b->t;
+	}
 };
-class Collision
+
+class CCollision
 {
+	static CCollision* __instance;
 public:
-	static LPCOLLISIONEVENT SweptAABB(LPGAMEOBJECT objSrc, DWORD dt, LPGAMEOBJECT objDest);
-	static void Scan(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* objDests, vector<LPCOLLISIONEVENT>& coEvents);
-	static bool IsColliding(RECT objSrc, RECT objDest);
-	static void Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+	static void SweptAABB(
+		float ml,			// move left 
+		float mt,			// move top
+		float mr,			// move right 
+		float mb,			// move bottom
+		float dx,			// 
+		float dy,			// 
+		float sl,			// static left
+		float st,
+		float sr,
+		float sb,
+		float& t,
+		float& nx,
+		float& ny);
 
+	LPCOLLISIONEVENT SweptAABB(
+		LPGAMEOBJECT objSrc,
+		DWORD dt,
+		LPGAMEOBJECT objDest);
+	void Scan(
+		LPGAMEOBJECT objSrc,
+		DWORD dt,
+		vector<LPGAMEOBJECT>* objDests,
+		vector<LPCOLLISIONEVENT>& coEvents);
+
+	void Filter(
+		LPGAMEOBJECT objSrc,
+		vector<LPCOLLISIONEVENT>& coEvents,
+		LPCOLLISIONEVENT& colX,
+		LPCOLLISIONEVENT& colY,
+		int filterBlock,
+		int filterX,
+		int filterY);
+
+	void Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+
+	static CCollision* GetInstance();
 };
-
