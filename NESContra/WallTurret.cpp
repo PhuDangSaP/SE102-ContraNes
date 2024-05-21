@@ -1,30 +1,69 @@
 #include "WallTurret.h"
 #include "Bill.h"
 extern CBill* bill;
-void CWallTurret::Update(DWORD dt)
+void CWallTurret::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	float xTarget, yTarget;
-	bill->GetPos(xTarget, yTarget);
-	if (abs(this->x - xTarget) < SCREEN_WIDTH / 2 - 25)
+	if (this->state == TURRET_STATE_IDLE) return;
+	if (this->state == TURRET_STATE_OPENING)
 	{
-		xTarget -= this->x;
-		yTarget -= this->y;
-		angle = atan2f(yTarget, xTarget) * 180 / 3.141;
-		floorf(angle);
-		openTimer -= dt;
-		if (openTimer > 0)
-		{
-			this->state = TURRET_STATE_OPENING;
-		}
 		if (openTimer <= 0)
 		{
-			this->state = TURRET_STATE_ACTIVE;
+			RequestState(TURRET_STATE_ACTIVE);
+		}
+		else 
+		{
+			openTimer -= dt;
 		}
 	}
-	else
+	if (this->state == TURRET_STATE_ACTIVE)
 	{
-		this->state = TURRET_STATE_IDLE;
-		openTimer = 500;
+		if (scanTimer <= 0)
+		{
+			float xTarget, yTarget;
+			bill->GetPos(xTarget, yTarget);
+			xTarget -= this->x;
+			yTarget -= this->y;
+			newAngle = atan2f(yTarget, xTarget) * 180 / 3.141;
+			if (newAngle < 0) newAngle += 360;
+			floorf(newAngle);
+			if (abs(newAngle - curAngle) < 30)
+			{
+				//shoot
+			}
+			else
+			{
+				if (abs(newAngle - curAngle) >= 180)
+				{
+					if (curAngle < newAngle)
+					{
+						curAngle -= 30;
+					}
+					else
+					{
+						curAngle += 30;
+					}
+				}
+				else
+				{
+					if (curAngle < newAngle)
+					{
+						curAngle += 30;
+					}
+					else
+					{
+						curAngle -= 30;
+					}
+				}
+				if (curAngle >= 360) curAngle -= 360;
+				if (curAngle < 0) curAngle += 360;
+				
+			}
+			scanTimer = SCAN_TIMER;
+		}
+		else
+		{
+			scanTimer -= dt;
+		}
 	}
 }
 
@@ -41,54 +80,55 @@ void CWallTurret::Render()
 		aniId = ID_ANI_TURRET_OPENING;
 		break;
 	case TURRET_STATE_ACTIVE:
-		if (angle <= 15 && angle > -15)
+		if (curAngle <= 15 || curAngle > 345)
 		{
 			aniId = ID_ANI_TURRET_ACTIVE_3_OCLOCK;
 		}
-		if (angle > 15 && angle <= 45)
+		if (curAngle > 15 && curAngle <= 45)
 		{
 			aniId = ID_ANI_TURRET_ACTIVE_2_OCLOCK;
 		}
-		if (angle > 45 && angle <= 75)
+		if (curAngle > 45 && curAngle <= 75)
 		{
 			aniId = ID_ANI_TURRET_ACTIVE_1_OCLOCK;
 		}
-		if (angle > 75 && angle <= 105)
+		if (curAngle > 75 && curAngle <= 105)
 		{
 			aniId = ID_ANI_TURRET_ACTIVE_12_OCLOCK;
 		}
-		if (angle > 105 && angle <= 135)
+		if (curAngle > 105 && curAngle <= 135)
 		{
 			aniId = ID_ANI_TURRET_ACTIVE_11_OCLOCK;
 		}
-		if (angle > 135 && angle <= 165)
+		if (curAngle > 135 && curAngle <= 165)
 		{
 			aniId = ID_ANI_TURRET_ACTIVE_10_OCLOCK;
 		}
-		if (angle > 165 && angle <= -165)
+		if (curAngle > 165 && curAngle <= 195)
 		{
 			aniId = ID_ANI_TURRET_ACTIVE_9_OCLOCK;
 		}
-		if (angle > -165 && angle <= -135)
+		if (curAngle > 195 && curAngle <= 225)
 		{
 			aniId = ID_ANI_TURRET_ACTIVE_8_OCLOCK;
 		}
-		if (angle > -135 && angle <= -105)
+		if (curAngle > 225 && curAngle <= 255)
 		{
 			aniId = ID_ANI_TURRET_ACTIVE_7_OCLOCK;
 		}
-		if (angle > -105 && angle <= -75)
+		if (curAngle > 255 && curAngle <= 285)
 		{
 			aniId = ID_ANI_TURRET_ACTIVE_6_OCLOCK;
 		}
-		if (angle > -75 && angle <= -45)
+		if (curAngle > 285 && curAngle <= 315)
 		{
 			aniId = ID_ANI_TURRET_ACTIVE_5_OCLOCK;
 		}
-		if (angle > -45 && angle <= -15)
+		if (curAngle > 315 && curAngle <= 345)
 		{
 			aniId = ID_ANI_TURRET_ACTIVE_4_OCLOCK;
 		}
+		break;
 	}
 	animations->Get(aniId)->Render(x, y);
 }
@@ -100,12 +140,45 @@ RECT CWallTurret::GetRect()
 
 RECT CWallTurret::GetBoundingBox()
 {
-	return RECT();
+	RECT rect;
+	rect = CSprites::GetInstance()->Get(6001)->GetRect();
+	rect.left = x - rect.right / 2;
+	rect.right = x + rect.right / 2;
+	rect.top += y + rect.bottom / 2;
+	rect.bottom = y - rect.bottom / 2;
+	if (this->state == TURRET_STATE_IDLE)
+	{
+		rect.left -= 50;
+		rect.top += 50;
+		rect.bottom -= 50;
+	}
+	return rect;
 }
 
 void CWallTurret::RequestState(int reqState)
 {
-	/*int finalState;
-	
-	CGameObject::SetState(finalState);*/
+	switch (this->state)
+	{
+	case TURRET_STATE_IDLE:
+		switch (reqState)
+		{
+		case TURRET_STATE_OPENING:
+			this->state = reqState;
+			openTimer = OPEN_TIMER;
+			break;
+		case TURRET_STATE_ACTIVE:
+			this->state = TURRET_STATE_OPENING;
+			openTimer = OPEN_TIMER;
+			break;
+		case TURRET_STATE_IDLE:
+			this->state = reqState;
+			break;
+		}
+		break;
+	case TURRET_STATE_OPENING:
+		this->state = reqState;
+		break;
+	case TURRET_STATE_ACTIVE:
+		break;
+	}
 }

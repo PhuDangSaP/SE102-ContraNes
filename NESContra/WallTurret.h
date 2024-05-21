@@ -27,6 +27,9 @@
 #define ID_ANI_TURRET_ACTIVE_11_OCLOCK	3112
 #define ID_ANI_TURRET_OPENING			3113
 
+#define OPEN_TIMER 500
+#define SCAN_TIMER 1000
+
 
 class CWallTurret : public CGameObject
 {
@@ -34,14 +37,23 @@ public:
 	CWallTurret(float x, float y) : CGameObject(x, y)
 	{
 		this->state = TURRET_STATE_IDLE;
+		curAngle = 180.0f;
+		newAngle = 180.0f;
+		openTimer = OPEN_TIMER;
+		scanTimer = SCAN_TIMER;
 	}
 	void RequestState(int state);
 	void GetPos(float& x, float& y) { x = this->x; y = this->y; }
 private:
-	void Update(DWORD dt);
+	void Update(DWORD dt){}
+	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
-	long openTimer = 500;
-	float angle;
+	int IsCollidable() { return 1; }
+	long openTimer;
+	long scanTimer;
+
+	float curAngle;
+	float newAngle;
 	RECT GetRect();
 	RECT GetBoundingBox();
 };
