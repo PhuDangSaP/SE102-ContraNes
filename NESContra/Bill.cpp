@@ -65,7 +65,6 @@ void CBill::Render()
 		{
 			aniId = ID_ANI_BILL_LYING_DOWN_LEFT;
 		}
-		d = -10;
 		break;
 	case BILL_STATE_LOOKING_UP:
 		if (this->nx >= 0)
@@ -465,7 +464,7 @@ void CBill::OnNoCollision(DWORD dt)
 {
 	x += vx * dt;
 	y += vy * dt;
-	if (y < 130)
+	/*if (y < 130)
 	{
 		vy = 0;
 		y = 130;
@@ -474,7 +473,7 @@ void CBill::OnNoCollision(DWORD dt)
 	if (isGrounded && state == BILL_STATE_DIE)
 	{
 		vx = 0;
-	}
+	}*/
 }
 
 void CBill::OnCollisionWith(LPCOLLISIONEVENT e)

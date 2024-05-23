@@ -4,8 +4,8 @@
 #include "Animations.h"
 
 #define BILL_WALKING_SPEED		0.065f
-#define BILL_JUMP_SPEED			0.25f
 #define GRAVITY					0.0005f
+#define BILL_JUMP_SPEED			GRAVITY * 500.0f
 #define BILL_DEFLECT_SPEED		0.1f
 
 #define BILL_STATE_IDLE					0

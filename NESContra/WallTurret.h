@@ -44,6 +44,7 @@ public:
 	}
 	void RequestState(int state);
 	void GetPos(float& x, float& y) { x = this->x; y = this->y; }
+	int IsBlocking() { return 0; }
 private:
 	void Update(DWORD dt){}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

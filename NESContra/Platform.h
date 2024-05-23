@@ -28,6 +28,7 @@ public:
 	void RenderBoundingBox();
 	int IsBlocking() { return 1; }
 	int IsCollidable() { return 1; }
+	int IsDirectionColliable(float nx, float ny);
 };
 
 

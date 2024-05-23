@@ -33,3 +33,9 @@ RECT Platform::GetBoundingBox()
 	rect.bottom = rect.top - this->cellHeight;
 	return rect;
 }
+
+int Platform::IsDirectionColliable(float nx, float ny) 
+{
+	if (nx == 0 && ny == 1) return 1;
+	else return 0;
+}

@@ -61,7 +61,7 @@ CSoldier* soldier = NULL;
 CSniper* sniper = NULL;
 CWallTurret* wT = NULL;
 World* root = NULL;
-Platform* grass = NULL;
+
 
 CSampleKeyHandler* keyHandler;
 
@@ -354,7 +354,7 @@ void LoadResources()
 	animations->Add(ID_ANI_SOLDIER_WALKING_LEFT, ani);
 
 	soldier = new CSoldier(BILL_START_X+100, BILL_START_Y );
-	objects.push_back(soldier);
+	//objects.push_back(soldier);
 
 	soldier = new CSoldier(BILL_START_X +10, BILL_START_Y+50);
 	//objects.push_back(soldier);
@@ -653,10 +653,172 @@ void LoadResources()
 	wT = new CWallTurret(1839, 102.5);
 	objects.push_back(wT);
 
-	sprites->Add(17000, 31, 105, 62, 119, texLevel1); // grass begin
-	//sprites->Add(17001, 47, 105, 62, 119, texLevel1); // grass end
-	grass = new Platform(31, 140, 31, 14, 5, 17000,17000,17000);
+	sprites->Add(17000, 31, 105, 63, 119, texLevel1); // grass
+	Platform* grass = NULL;
+	//ISLAND1
+
+	for (int i = 0; i < 8; i++)
+	{
+		if (i != 7)
+		{
+			grass = new Platform(47.5 + 3 * 32 * i, 111, 32, 7, 3, 17000, 17000, 17000);
+		}
+		else
+		{
+			grass = new Platform(47.5 + 3 * 32 * i, 111, 32, 7, 2, 17000, 17000, 17000);
+		}
+		objects.push_back(grass);
+	}
+	grass = new Platform(175.5, 79, 32, 7, 3, 17000, 17000, 17000);
 	objects.push_back(grass);
+	grass = new Platform(271.5, 47, 32, 7, 1, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(303.5, 14, 32, 7, 2, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(367.5, 47, 32, 7, 1, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(431.5, 79, 32, 7, 2, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(622.5, 14, 32, 7, 2, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(654.5, 62, 32, 7, 3, 17000, 17000, 17000);
+	objects.push_back(grass);
+
+	//ISLAND 2
+	grass = new Platform(911.5, 111, 32, 7, 3, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(1007.5, 111, 32, 7, 2, 17000, 17000, 17000);
+	objects.push_back(grass);
+
+	//ISLAND 3
+	grass = new Platform(1199.5, 111, 32, 7, 3, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(1295.5, 111, 32, 7, 3, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(1391.5, 111, 32, 7, 2, 17000, 17000, 17000);
+	objects.push_back(grass);
+
+	for (int i = 0; i < 5; i++)
+	{
+		grass = new Platform(1391.5 + 3 * 32 * i, 142, 32, 7, 3, 17000, 17000, 17000);
+		objects.push_back(grass);
+	}
+	grass = new Platform(1871.5, 142, 32, 7, 1, 17000, 17000, 17000);
+	objects.push_back(grass);
+
+	grass = new Platform(1423.5, 14, 32, 7, 3, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(1519.5, 62, 32, 7, 2, 17000, 17000, 17000);
+	objects.push_back(grass);
+
+	grass = new Platform(1615.5, 79, 32, 7, 3, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(1711.5, 79, 32, 7, 3, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(1807.5, 79, 32, 7, 1, 17000, 17000, 17000);
+	objects.push_back(grass);
+
+	grass = new Platform(1743.5, 14, 32, 7, 3, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(1839.5, 14, 32, 7, 3, 17000, 17000, 17000);
+	objects.push_back(grass);
+
+	grass = new Platform(1871.5, 111, 32, 7, 3, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(1967.5, 111, 32, 7, 3, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(2063.5, 111, 32, 7, 1, 17000, 17000, 17000);
+	objects.push_back(grass);
+
+	grass = new Platform(1935.5, 47, 32, 7, 2, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(2031.5, 47, 32, 7, 2, 17000, 17000, 17000);
+	objects.push_back(grass);
+
+	grass = new Platform(2063.5, 143, 32, 7, 3, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(2159.5, 143, 32, 7, 2, 17000, 17000, 17000);
+	objects.push_back(grass);
+
+	grass = new Platform(2127.5, 62, 32, 7, 1, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(2191.5, 79, 32, 7, 3, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(2255.5, 111, 32, 7, 2, 17000, 17000, 17000);
+	objects.push_back(grass);
+
+	//ISLAND 3
+	grass = new Platform(2351.5, 79, 32, 7, 2, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(2351.5, 14, 32, 7, 1, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(2383.5, 111, 32, 7, 2, 17000, 17000, 17000);
+	objects.push_back(grass);
+
+	//ISLAND 4
+	grass = new Platform(2479.5, 79, 32, 7, 2, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(2479.5, 14, 32, 7, 1, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(2511.5, 47, 32, 7, 3, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(2607.5, 111, 32, 7, 2, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(2639.5, 14, 32, 7, 1, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(2639.5, 142, 32, 7, 2, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(2671.5, 62, 32, 7, 1, 17000, 17000, 17000);
+	objects.push_back(grass);
+
+	//ISLAND 5
+	grass = new Platform(2735.5, 111, 32, 7, 2, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(2767.5, 79, 32, 7, 3, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(2863.5, 79, 32, 7, 2, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(2863.5, 14, 32, 7, 3, 17000, 17000, 17000);
+	objects.push_back(grass);
+
+	//ISLAND 6
+	grass = new Platform(2991.5, 47, 32, 7, 2, 17000, 17000, 17000);
+	objects.push_back(grass);
+
+	//ISLAND 7
+	grass = new Platform(3087.5, 79, 32, 7, 2, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(3151.5, 111, 32, 7, 2, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(3215.5, 111, 32, 7, 2, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(3183.5, 62, 32, 7, 3, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(3279.5, 79, 32, 7, 1, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(3311.5, 47, 32, 7, 1, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(3151.5, 14, 32, 7, 3, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(3247.5, 14, 32, 7, 3, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(3343.5, 14, 32, 7, 2, 17000, 17000, 17000);
+	objects.push_back(grass);
+
+	//Temp platform
+	grass = new Platform(783.5, 111, 32, 7, 2, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(847.5, 111, 32, 7, 2, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(1071.5, 111, 32, 7, 2, 17000, 17000, 17000);
+	objects.push_back(grass);
+	grass = new Platform(1135.5, 111, 32, 7, 2, 17000, 17000, 17000);
+	objects.push_back(grass);
+	//Temp platform end
+	
+	
+
+
 
 	root = new World(0, 0, 3455, 223);
 	root->SetObjects(objects);
@@ -712,13 +874,12 @@ void Render()
 	{
 		sections[i]->Render();
 	}
-	
-	bill->Render();
 
 	for (int i = 0; i < (int)objects.size(); i++)
 	{
 		objects[i]->Render();
 	}
+	bill->Render();
 
 	for (LPGAMEOBJECT obj : objects)
 	{
