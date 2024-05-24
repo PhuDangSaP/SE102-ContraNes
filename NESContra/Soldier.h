@@ -4,7 +4,7 @@
 #include "Animation.h"
 #include "Animations.h"
 
-#define SOLDIER_WALKING_SPEED		0.1f
+#define SOLDIER_WALKING_SPEED		0.065f
 
 #define SOLDIER_STATE_IDLE					0
 #define SOLDIER_STATE_WALKING_RIGHT			100
@@ -24,14 +24,15 @@ class CSoldier : public CGameObject
 public:
 	CSoldier(float x, float y) : CGameObject(x, y)
 	{
-		state = SOLDIER_STATE_WALKING_RIGHT;
-		nx = 1;
-		vx = SOLDIER_WALKING_SPEED;
+		state = SOLDIER_STATE_WALKING_LEFT;
+		nx = -1;
+		vx = -SOLDIER_WALKING_SPEED;
 		isMovable = true;
 	}
 	void RequestState(int state);
 	void GetPos(float& x, float& y) { x = this->x; y = this->y; }
 private:
+	bool isGrounded;
 	void Update(DWORD dt);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
@@ -39,5 +40,5 @@ private:
 	RECT GetBoundingBox();
 	int IsCollidable() { return 1; }
 	void OnNoCollision(DWORD dt);
-	void OnCollisionWith(LPCOLLISIONEVENT e) {};
+	void OnCollisionWith(LPCOLLISIONEVENT e);
 };

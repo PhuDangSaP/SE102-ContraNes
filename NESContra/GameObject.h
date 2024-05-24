@@ -5,6 +5,8 @@
 #include <vector>
 #include "Collision.h"
 
+#define GRAVITY					0.0005f
+
 using namespace std;
 
 class CGameObject

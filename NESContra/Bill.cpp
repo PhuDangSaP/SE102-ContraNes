@@ -2,6 +2,7 @@
 #include "Collision.h"
 #include "Soldier.h"
 #include "WallTurret.h"
+#include "Platform.h"
 
 
 void CBill::Update(DWORD dt)
@@ -12,7 +13,7 @@ void CBill::Update(DWORD dt)
 void CBill::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy -= GRAVITY * dt;
-	isGrounded = false;
+	
 	if (x < 10) { x = 10; }
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -22,7 +23,6 @@ void CBill::Render()
 	CAnimations* animations = CAnimations::GetInstance();
 	int aniId = -1;
 	float d = 0;
-	if (aniId == -1) aniId = ID_ANI_BILL_IDLE_RIGHT;
 	switch (state) {
 	case BILL_STATE_DIE:
 		if (nx < 0)
@@ -51,59 +51,145 @@ void CBill::Render()
 		}
 		break;
 	case BILL_STATE_WALKING_RIGHT:
-		aniId = ID_ANI_BILL_WALKING_RIGHT;
+		if (isGrounded)
+		{
+			aniId = ID_ANI_BILL_WALKING_RIGHT;
+		}
+		else
+		{
+			aniId = ID_ANI_BILL_FREE_FALL_RIGHT;
+		}
 		break;
 	case BILL_STATE_WALKING_LEFT:
-		aniId = ID_ANI_BILL_WALKING_LEFT;
+		if (isGrounded)
+		{
+			aniId = ID_ANI_BILL_WALKING_LEFT;
+		}
+		else
+		{
+			aniId = ID_ANI_BILL_FREE_FALL_LEFT;
+		}
 		break;
 	case BILL_STATE_LYING_DOWN:
 		if (this->nx >= 0)
 		{
-			aniId = ID_ANI_BILL_LYING_DOWN_RIGHT;
+			if (isGrounded)
+			{
+				aniId = ID_ANI_BILL_LYING_DOWN_RIGHT;
+			}
+			else
+			{
+				aniId = ID_ANI_BILL_FREE_FALL_RIGHT;
+			}
 		}
 		else
 		{
-			aniId = ID_ANI_BILL_LYING_DOWN_LEFT;
+			if (isGrounded)
+			{
+				aniId = ID_ANI_BILL_LYING_DOWN_LEFT;
+			}
+			else
+			{
+				aniId = ID_ANI_BILL_FREE_FALL_LEFT;
+			}
 		}
 		break;
 	case BILL_STATE_LOOKING_UP:
 		if (this->nx >= 0)
 		{
-			aniId = ID_ANI_BILL_LOOKING_UP_RIGHT;
+			if (isGrounded)
+			{
+				aniId = ID_ANI_BILL_LOOKING_UP_RIGHT;
+				d = 5;
+			}
+			else
+			{
+				aniId = ID_ANI_BILL_FREE_FALL_RIGHT;
+			}
 		}
 		else
 		{
-			aniId = ID_ANI_BILL_LOOKING_UP_LEFT;
+			if (isGrounded)
+			{
+				aniId = ID_ANI_BILL_LOOKING_UP_LEFT;
+				d = 5;
+			}
+			else
+			{
+				aniId = ID_ANI_BILL_FREE_FALL_LEFT;
+			}
 		}
-		d = 5;
 		break;
 	case BILL_STATE_IDLE:
-		if (nx < 0) {
-			aniId = ID_ANI_BILL_IDLE_LEFT;
+		if (nx < 0) 
+		{
+			if (isGrounded)
+			{
+				aniId = ID_ANI_BILL_IDLE_LEFT;
+			}
+			else
+			{
+				aniId = ID_ANI_BILL_FREE_FALL_LEFT;
+			}
 		}
 		else
 		{
-			aniId = ID_ANI_BILL_IDLE_RIGHT;
+			if (isGrounded)
+			{
+				aniId = ID_ANI_BILL_IDLE_RIGHT;
+			}
+			else
+			{
+				aniId = ID_ANI_BILL_FREE_FALL_RIGHT;
+			}
 		}
 		break;
 	case BILL_STATE_WALKING_LOOK_UP:
 		if (this->nx >= 0)
 		{
-			aniId = ID_ANI_BILL_WALKING_LOOKING_UP_RIGHT;
+			if (isGrounded)
+			{
+				aniId = ID_ANI_BILL_WALKING_LOOKING_UP_RIGHT;
+			}
+			else
+			{
+				aniId = ID_ANI_BILL_FREE_FALL_RIGHT;
+			}
 		}
 		else
 		{
-			aniId = ID_ANI_BILL_WALKING_LOOKING_UP_LEFT;
+			if (isGrounded)
+			{
+				aniId = ID_ANI_BILL_WALKING_LOOKING_UP_LEFT;
+			}
+			else
+			{
+				aniId = ID_ANI_BILL_FREE_FALL_LEFT;
+			}
 		}
 		break;
 	case BILL_STATE_WALKING_LOOK_DOWN:
 		if (this->nx >= 0)
 		{
-			aniId = ID_ANI_BILL_WALKING_LOOKING_DOWN_RIGHT;
+			if (isGrounded)
+			{
+				aniId = ID_ANI_BILL_WALKING_LOOKING_DOWN_RIGHT;
+			}
+			else
+			{
+				aniId = ID_ANI_BILL_FREE_FALL_RIGHT;
+			}
 		}
 		else
 		{
-			aniId = ID_ANI_BILL_WALKING_LOOKING_DOWN_LEFT;
+			if (isGrounded)
+			{
+				aniId = ID_ANI_BILL_WALKING_LOOKING_DOWN_LEFT;
+			}
+			else
+			{
+				aniId = ID_ANI_BILL_FREE_FALL_LEFT;
+			}
 		}
 		break;
 	case BILL_STATE_JUMP:
@@ -121,8 +207,6 @@ void CBill::Render()
 	}
 	animations->Get(aniId)->Render(x, y + d);
 }
-
-
 
 void CBill::RequestState(int reqState)
 {
@@ -155,14 +239,20 @@ void CBill::RequestState(int reqState)
 			finalState = reqState;
 			break;
 		case BILL_STATE_LYING_DOWN:
-			ny = -1;
-			y -= BILL_LIE_DOWN_HEIGHT_ADJUST;
-			finalState = reqState;
+			if (isGrounded)
+			{
+				ny = -1;
+				y -= BILL_LIE_DOWN_HEIGHT_ADJUST;
+				finalState = reqState;
+			}
 			break;
 		case BILL_STATE_JUMP:
-			vy += BILL_JUMP_SPEED;
-			isGrounded = false;
-			finalState = reqState;
+			if (isGrounded)
+			{
+				vy += BILL_JUMP_SPEED;
+				isGrounded = false;
+				finalState = reqState;
+			}
 			break;
 		}
 		break;
@@ -270,6 +360,13 @@ void CBill::RequestState(int reqState)
 	case BILL_STATE_LYING_DOWN:
 		switch (reqState)
 		{
+		case BILL_STATE_JUMP:
+			if (isOnDropablePlatform)
+			{
+				isGrounded = false;
+				finalState = BILL_STATE_IDLE;
+			}
+			break;
 		case BILL_STATE_DIE:
 			vx = -nx * BILL_DEFLECT_SPEED;
 			vy = BILL_DEFLECT_SPEED;
@@ -464,16 +561,7 @@ void CBill::OnNoCollision(DWORD dt)
 {
 	x += vx * dt;
 	y += vy * dt;
-	/*if (y < 130)
-	{
-		vy = 0;
-		y = 130;
-		isGrounded = true;
-	}
-	if (isGrounded && state == BILL_STATE_DIE)
-	{
-		vx = 0;
-	}*/
+	if (state != BILL_STATE_DIE) isGrounded = false;
 }
 
 void CBill::OnCollisionWith(LPCOLLISIONEVENT e)
@@ -482,12 +570,15 @@ void CBill::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		vy = 0;
 		if (e->ny > 0) isGrounded = true;
+		if (state == BILL_STATE_DIE ) vx = 0;
 	}
 	else if (e->nx != 0 && e->obj->IsBlocking())
 	{
 		vx = 0;
 	}
 	//MessageBox(NULL, L"Collide", L"Collide", MB_OK);
+	if (dynamic_cast<Platform*>(e->obj))
+		OnCollisionWithPlatform(e);
 	if (dynamic_cast<CSoldier*>(e->obj))
 		OnCollisionWithSoldier(e);
 	if (dynamic_cast<CWallTurret*>(e->obj))
@@ -508,4 +599,10 @@ void CBill::OnCollisionWithWallTurret(LPCOLLISIONEVENT e)
 	if (wT->GetState() != TURRET_STATE_IDLE)
 		return;
 	wT->RequestState(TURRET_STATE_OPENING);
+}
+
+void CBill::OnCollisionWithPlatform(LPCOLLISIONEVENT e)
+{
+	Platform* p = dynamic_cast<Platform*>(e->obj);
+	isOnDropablePlatform = p->IsDropable();
 }

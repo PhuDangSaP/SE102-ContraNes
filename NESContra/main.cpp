@@ -188,6 +188,11 @@ void LoadResources()
 	//LYING
 	sprites->Add(10010, 992, 243, 1023, 252, texBill);
 
+	//BILL FREE FALL
+	//RIGHT
+	sprites->Add(10011, 220, 24, 237, 59, texBill);
+	//LEFT
+	sprites->Add(10012, 237, 24, 220, 59, texBill);
 
 	ani = new CAnimation(100);
 	ani->Add(9001);
@@ -303,6 +308,14 @@ void LoadResources()
 	ani->Add(10010);
 	animations->Add(ID_ANI_BILL_DIE_LYING_LEFT, ani);
 
+	ani = new CAnimation(75);
+	ani->Add(10011);
+	animations->Add(ID_ANI_BILL_FREE_FALL_RIGHT, ani);
+
+	ani = new CAnimation(75);
+	ani->Add(10012);
+	animations->Add(ID_ANI_BILL_FREE_FALL_LEFT, ani);
+
 	bill = new CBill(BILL_START_X - 50, BILL_START_Y + 50 + 50);
 	
 	//objects.push_back(bill);
@@ -353,8 +366,8 @@ void LoadResources()
 	ani->Add(8026);
 	animations->Add(ID_ANI_SOLDIER_WALKING_LEFT, ani);
 
-	soldier = new CSoldier(BILL_START_X+100, BILL_START_Y );
-	//objects.push_back(soldier);
+	soldier = new CSoldier(BILL_START_X+500, BILL_START_Y + 200 );
+	objects.push_back(soldier);
 
 	soldier = new CSoldier(BILL_START_X +10, BILL_START_Y+50);
 	//objects.push_back(soldier);
@@ -807,7 +820,7 @@ void LoadResources()
 
 	//Temp platform
 	grass = new Platform(783.5, 111, 32, 7, 2, 17000, 17000, 17000);
-	objects.push_back(grass);
+	//objects.push_back(grass);
 	grass = new Platform(847.5, 111, 32, 7, 2, 17000, 17000, 17000);
 	objects.push_back(grass);
 	grass = new Platform(1071.5, 111, 32, 7, 2, 17000, 17000, 17000);

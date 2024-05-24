@@ -2,39 +2,14 @@
 
 void CSoldier::Update(DWORD dt)
 {
-	x += vx * dt;
-	y += vy * dt;
-
-	if (x < 10) 
-	{
-		x = 10; 
-		vx = -vx;
-	}
-	if (x > 400)
-	{
-		x = 400;
-		vx = -vx;
-	}
+	
 }
 
 void CSoldier::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	vy -= GRAVITY * dt;
+	isGrounded = false;
 	CCollision::GetInstance()->Process(this, dt, coObjects);
-	/*x += vx * dt;
-	y += vy * dt;*/
-
-	//vx = 0;
-	if (x < 0)
-	{
-		x = 0;
-		vx = -vx;
-	}
-	if (x > 400)
-	{
-		x = 400;
-		vx = -vx;
-	}
-	
 }
 
 void CSoldier::Render()
@@ -91,23 +66,42 @@ void CSoldier::OnNoCollision(DWORD dt)
 
 void CSoldier::RequestState(int reqState)
 {
-	int finalState;
-	switch (reqState)
+	int finalState = state;
+	switch (state)
 	{
 	case SOLDIER_STATE_WALKING_RIGHT:
-		finalState = reqState;
-		nx = 1;
-		vx = SOLDIER_WALKING_SPEED;
+		switch (reqState)
+		{
+		case SOLDIER_STATE_WALKING_LEFT:
+			nx = -1;
+			vx = -SOLDIER_WALKING_SPEED;
+			finalState = reqState;
+			break;
+		}
 		break;
 	case SOLDIER_STATE_WALKING_LEFT:
-		finalState = reqState;
-		nx = -1;
-		vx = -SOLDIER_WALKING_SPEED;
-		break;
-	case SOLDIER_STATE_IDLE:
-		finalState = reqState;
-		vx = 0;
+		switch (reqState)
+		{
+		case SOLDIER_STATE_WALKING_RIGHT:
+			nx = 1;
+			vx = SOLDIER_WALKING_SPEED;
+			finalState = reqState;
+			break;
+		}
 		break;
 	}
 	CGameObject::SetState(finalState);
+}
+
+void CSoldier::OnCollisionWith(LPCOLLISIONEVENT e)
+{
+	if (e->ny != 0 && e->obj->IsBlocking())
+	{
+		vy = 0;
+		if (e->ny > 0) isGrounded = true;
+	}
+	else if (e->nx != 0 && e->obj->IsBlocking())
+	{
+		vx = 0;
+	}
 }

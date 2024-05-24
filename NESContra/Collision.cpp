@@ -341,8 +341,8 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 					x += dx;
 					y += dy;
 				}
-
-		objSrc->SetPosition(x, y);
+		
+		objSrc->SetPosition(x, floorf(y));
 	}
 
 	//

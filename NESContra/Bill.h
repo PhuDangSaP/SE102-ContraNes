@@ -4,8 +4,7 @@
 #include "Animations.h"
 
 #define BILL_WALKING_SPEED		0.065f
-#define GRAVITY					0.0005f
-#define BILL_JUMP_SPEED			GRAVITY * 500.0f
+#define BILL_JUMP_SPEED			0.225f
 #define BILL_DEFLECT_SPEED		0.1f
 
 #define BILL_STATE_IDLE					0
@@ -42,6 +41,9 @@
 #define ID_ANI_BILL_DIE_LYING_RIGHT	1114
 #define ID_ANI_BILL_DIE_LYING_LEFT	1115
 
+#define ID_ANI_BILL_FREE_FALL_RIGHT	1116
+#define ID_ANI_BILL_FREE_FALL_LEFT 1117
+
 #pragma region BBOX_VALUE
 
 #define BILL_STAND_BBOX_WIDTH	24
@@ -58,8 +60,10 @@ class CBill : public CGameObject
 {
 private:
 	bool isGrounded;
+	bool isOnDropablePlatform;
 	void OnCollisionWithSoldier(LPCOLLISIONEVENT e);
 	void OnCollisionWithWallTurret(LPCOLLISIONEVENT e);
+	void OnCollisionWithPlatform(LPCOLLISIONEVENT e);
 public:
 	CBill(float x, float y) : CGameObject(x, y)
 	{
@@ -67,6 +71,7 @@ public:
 		SetState(BILL_STATE_JUMP);
 		nx = 1;
 		isGrounded = false;
+		isOnDropablePlatform = false;
 		isMovable = true;
 	}
 	void RequestState(int state);
