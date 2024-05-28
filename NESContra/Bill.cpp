@@ -63,6 +63,14 @@ void CBill::RequestState(int reqState)
 			if (climbTimer <= 0)
 			{
 				y += BILL_SWIM_HEIGHT_ADJUST;
+				if (reqState == BILL_STATE_WALKING_LEFT)
+				{
+					vx = -BILL_WALKING_SPEED;
+				}
+				if (reqState == BILL_STATE_WALKING_RIGHT)
+				{
+					vx = BILL_WALKING_SPEED;
+				}
 				finalState = reqState;
 			}
 			break;
@@ -520,6 +528,7 @@ void CBill::OnCollisionWithPlatform(LPCOLLISIONEVENT e)
 		isInWater = false;
 		climbTimer = WATER_SPLASH_TIMER;
 		state = BILL_STATE_CLIMB;
+		vx = 0;
 	}
 	isOnDropablePlatform = p->IsDropable();
 }

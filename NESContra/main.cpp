@@ -53,7 +53,7 @@
 #define TEXTURE_PATH_TURRET TEXTURES_DIR "\\turrets.gif"
 #define TEXTURE_PATH_LEVEL_1 TEXTURES_DIR "\\level1.png"
 
-#define BILL_START_X 100.0f + 2500.0f
+#define BILL_START_X 100.0f
 #define BILL_START_Y 130.0f
 
 
