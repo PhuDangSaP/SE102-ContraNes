@@ -9,10 +9,11 @@ protected:
 	float cellHeight;
 	int spriteIdBegin, spriteIdMiddle, spriteIdEnd;
 	bool isDropable;
+	bool isClimbable;
 public:
 	Platform(float x, float y,
 		float cell_width, float cell_height, int length,
-		int sprite_id_begin, int sprite_id_middle, int sprite_id_end, bool isDropable = true) :CGameObject(x, y)
+		int sprite_id_begin, int sprite_id_middle, int sprite_id_end, bool isDropable = true, bool isClimbable = false) :CGameObject(x, y)
 	{
 		this->length = length;
 		this->cellWidth = cell_width;
@@ -21,6 +22,7 @@ public:
 		this->spriteIdMiddle = sprite_id_middle;
 		this->spriteIdEnd = sprite_id_end;
 		this->isDropable = isDropable;
+		this->isClimbable = isClimbable;
 	}
 
 	void Render();

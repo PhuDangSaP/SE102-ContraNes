@@ -95,6 +95,9 @@ private:
 	bool isOnDropablePlatform;
 	bool isInWater;
 	float splashTimer;
+	float climbTimer;
+	float climbTargetX;
+	float climbTargetY;
 	void OnCollisionWithSoldier(LPCOLLISIONEVENT e);
 	void OnCollisionWithWallTurret(LPCOLLISIONEVENT e);
 	void OnCollisionWithPlatform(LPCOLLISIONEVENT e);
@@ -113,6 +116,8 @@ public:
 		isInWater = false;
 		isMovable = true;
 		splashTimer = WATER_SPLASH_TIMER;
+		climbTimer = WATER_SPLASH_TIMER;
+
 	}
 	void RequestState(int state);
 	void GetPos(float& x, float& y) { x = this->x; y = this->y; }

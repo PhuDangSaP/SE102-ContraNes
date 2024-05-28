@@ -23,6 +23,11 @@ void CBill::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		splashTimer -= dt;
 	}
+	if (state == BILL_STATE_CLIMB && climbTimer > 0)
+	{
+		SetPosition(climbTargetX, climbTargetY);
+		climbTimer -= dt;
+	}
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
@@ -54,6 +59,13 @@ void CBill::RequestState(int reqState)
 	{
 		switch (state)
 		{
+		case BILL_STATE_CLIMB:
+			if (climbTimer <= 0)
+			{
+				y += BILL_SWIM_HEIGHT_ADJUST;
+				finalState = reqState;
+			}
+			break;
 		case BILL_STATE_IDLE:
 			switch (reqState)
 			{
@@ -398,7 +410,7 @@ RECT CBill::GetBoundingBox()
 {
 	CSprites* sprites = CSprites::GetInstance();
 	RECT rect;
-	if (isInWater && state != BILL_STATE_DIE)
+	if ((isInWater || state == BILL_STATE_CLIMB) && state != BILL_STATE_DIE)
 	{
 		rect.left = x - BILL_SWIM_BBOX_WIDTH / 2;
 		rect.top = y + BILL_SWIM_BBOX_HEIGHT / 2;
@@ -458,7 +470,10 @@ void CBill::OnCollisionWith(LPCOLLISIONEVENT e)
 	}
 	else if (e->nx != 0 && e->obj->IsBlocking())
 	{
-		vx = 0;
+		if (!dynamic_cast<Platform*>(e->obj))
+		{
+			vx = 0;
+		}
 	}
 	//MessageBox(NULL, L"Collide", L"Collide", MB_OK);
 	if (dynamic_cast<Platform*>(e->obj))
@@ -490,8 +505,23 @@ void CBill::OnCollisionWithWallTurret(LPCOLLISIONEVENT e)
 void CBill::OnCollisionWithPlatform(LPCOLLISIONEVENT e)
 {
 	Platform* p = dynamic_cast<Platform*>(e->obj);
+	if (isInWater)
+	{
+		RECT r = p->GetBoundingBox();
+		if (x <= r.left)
+		{
+			climbTargetX = r.left;
+		}
+		if (x >= r.right)
+		{
+			climbTargetX = r.right;
+		}
+		climbTargetY = r.top + BILL_SWIM_BBOX_HEIGHT / 2 + 1.0f;
+		isInWater = false;
+		climbTimer = WATER_SPLASH_TIMER;
+		state = BILL_STATE_CLIMB;
+	}
 	isOnDropablePlatform = p->IsDropable();
-	isInWater = false;
 }
 
 void CBill::OnCollisionWithWater(LPCOLLISIONEVENT e)
@@ -739,6 +769,16 @@ void CBill::GetDefaultAnimations(int& aniId, float& d)
 		else
 		{
 			aniId = ID_ANI_BILL_JUMP_LEFT;
+		}
+		break;
+	case BILL_STATE_CLIMB:
+		if (this->nx >= 0)
+		{
+			aniId = ID_ANI_BILL_CLIMB_OUT_WATER_RIGHT;
+		}
+		else
+		{
+			aniId = ID_ANI_BILL_CLIMB_OUT_WATER_LEFT;
 		}
 		break;
 	default:

@@ -36,6 +36,7 @@ RECT Platform::GetBoundingBox()
 
 int Platform::IsDirectionColliable(float nx, float ny) 
 {
-	if (nx == 0 && ny == 1) return 1;
+	if (isClimbable) return 1;
+	if (nx == 0 && ny == 1 ) return 1;
 	else return 0;
 }

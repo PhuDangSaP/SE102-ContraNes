@@ -53,7 +53,7 @@
 #define TEXTURE_PATH_TURRET TEXTURES_DIR "\\turrets.gif"
 #define TEXTURE_PATH_LEVEL_1 TEXTURES_DIR "\\level1.png"
 
-#define BILL_START_X 100.0f
+#define BILL_START_X 100.0f + 2500.0f
 #define BILL_START_Y 130.0f
 
 
@@ -738,13 +738,13 @@ void LoadResources()
 	objects.push_back(grass);
 	grass = new Platform(271.5, 47, 32, 7, 1, 17000, 17000, 17000);
 	objects.push_back(grass);
-	grass = new Platform(303.5, 14, 32, 7, 2, 17000, 17000, 17000);
+	grass = new Platform(303.5, 14, 32, 7, 2, 17000, 17000, 17000, false, true);
 	objects.push_back(grass);
 	grass = new Platform(367.5, 47, 32, 7, 1, 17000, 17000, 17000);
 	objects.push_back(grass);
 	grass = new Platform(431.5, 79, 32, 7, 2, 17000, 17000, 17000);
 	objects.push_back(grass);
-	grass = new Platform(622.5, 14, 32, 7, 2, 17000, 17000, 17000);
+	grass = new Platform(622.5, 14, 32, 7, 2, 17000, 17000, 17000, false, true);
 	objects.push_back(grass);
 	grass = new Platform(654.5, 62, 32, 7, 3, 17000, 17000, 17000);
 	objects.push_back(grass);
@@ -771,7 +771,7 @@ void LoadResources()
 	grass = new Platform(1871.5, 142, 32, 7, 1, 17000, 17000, 17000);
 	objects.push_back(grass);
 
-	grass = new Platform(1423.5, 14, 32, 7, 3, 17000, 17000, 17000);
+	grass = new Platform(1423.5, 14, 32, 7, 3, 17000, 17000, 17000, false, true);
 	objects.push_back(grass);
 	grass = new Platform(1519.5, 62, 32, 7, 2, 17000, 17000, 17000);
 	objects.push_back(grass);
@@ -783,9 +783,9 @@ void LoadResources()
 	grass = new Platform(1807.5, 79, 32, 7, 1, 17000, 17000, 17000);
 	objects.push_back(grass);
 
-	grass = new Platform(1743.5, 14, 32, 7, 3, 17000, 17000, 17000);
+	grass = new Platform(1743.5, 14, 32, 7, 3, 17000, 17000, 17000, false, true);
 	objects.push_back(grass);
-	grass = new Platform(1839.5, 14, 32, 7, 3, 17000, 17000, 17000);
+	grass = new Platform(1839.5, 14, 32, 7, 3, 17000, 17000, 17000, false);
 	objects.push_back(grass);
 
 	grass = new Platform(1871.5, 111, 32, 7, 3, 17000, 17000, 17000);
@@ -795,9 +795,9 @@ void LoadResources()
 	grass = new Platform(2063.5, 111, 32, 7, 1, 17000, 17000, 17000);
 	objects.push_back(grass);
 
-	grass = new Platform(1935.5, 47, 32, 7, 2, 17000, 17000, 17000);
+	grass = new Platform(1935.5, 47, 32, 7, 2, 17000, 17000, 17000, false);
 	objects.push_back(grass);
-	grass = new Platform(2031.5, 47, 32, 7, 2, 17000, 17000, 17000);
+	grass = new Platform(2031.5, 47, 32, 7, 2, 17000, 17000, 17000, false);
 	objects.push_back(grass);
 
 	grass = new Platform(2063.5, 143, 32, 7, 3, 17000, 17000, 17000);
@@ -805,53 +805,53 @@ void LoadResources()
 	grass = new Platform(2159.5, 143, 32, 7, 2, 17000, 17000, 17000);
 	objects.push_back(grass);
 
-	grass = new Platform(2127.5, 62, 32, 7, 1, 17000, 17000, 17000);
+	grass = new Platform(2127.5, 62, 32, 7, 1, 17000, 17000, 17000, false);
 	objects.push_back(grass);
-	grass = new Platform(2191.5, 79, 32, 7, 3, 17000, 17000, 17000);
+	grass = new Platform(2191.5, 79, 32, 7, 3, 17000, 17000, 17000, false);
 	objects.push_back(grass);
 	grass = new Platform(2255.5, 111, 32, 7, 2, 17000, 17000, 17000);
 	objects.push_back(grass);
 
-	//ISLAND 3
+	//ISLAND 4
 	grass = new Platform(2351.5, 79, 32, 7, 2, 17000, 17000, 17000);
 	objects.push_back(grass);
-	grass = new Platform(2351.5, 14, 32, 7, 1, 17000, 17000, 17000);
+	grass = new Platform(2351.5, 14, 32, 7, 1, 17000, 17000, 17000, false);
 	objects.push_back(grass);
 	grass = new Platform(2383.5, 111, 32, 7, 2, 17000, 17000, 17000);
 	objects.push_back(grass);
 
-	//ISLAND 4
+	//ISLAND 5
 	grass = new Platform(2479.5, 79, 32, 7, 2, 17000, 17000, 17000);
 	objects.push_back(grass);
-	grass = new Platform(2479.5, 14, 32, 7, 1, 17000, 17000, 17000);
+	grass = new Platform(2479.5, 14, 32, 7, 1, 17000, 17000, 17000, false);
 	objects.push_back(grass);
-	grass = new Platform(2511.5, 47, 32, 7, 3, 17000, 17000, 17000);
+	grass = new Platform(2511.5, 47, 32, 7, 3, 17000, 17000, 17000, false);
 	objects.push_back(grass);
 	grass = new Platform(2607.5, 111, 32, 7, 2, 17000, 17000, 17000);
 	objects.push_back(grass);
-	grass = new Platform(2639.5, 14, 32, 7, 1, 17000, 17000, 17000);
+	grass = new Platform(2639.5, 14, 32, 7, 1, 17000, 17000, 17000, false);
 	objects.push_back(grass);
 	grass = new Platform(2639.5, 142, 32, 7, 2, 17000, 17000, 17000);
 	objects.push_back(grass);
-	grass = new Platform(2671.5, 62, 32, 7, 1, 17000, 17000, 17000);
+	grass = new Platform(2671.5, 62, 32, 7, 1, 17000, 17000, 17000, false);
 	objects.push_back(grass);
 
-	//ISLAND 5
+	//ISLAND 6
 	grass = new Platform(2735.5, 111, 32, 7, 2, 17000, 17000, 17000);
 	objects.push_back(grass);
 	grass = new Platform(2767.5, 79, 32, 7, 3, 17000, 17000, 17000);
 	objects.push_back(grass);
 	grass = new Platform(2863.5, 79, 32, 7, 2, 17000, 17000, 17000);
 	objects.push_back(grass);
-	grass = new Platform(2863.5, 14, 32, 7, 3, 17000, 17000, 17000);
-	objects.push_back(grass);
-
-	//ISLAND 6
-	grass = new Platform(2991.5, 47, 32, 7, 2, 17000, 17000, 17000);
+	grass = new Platform(2863.5, 14, 32, 7, 3, 17000, 17000, 17000, false);
 	objects.push_back(grass);
 
 	//ISLAND 7
-	grass = new Platform(3087.5, 79, 32, 7, 2, 17000, 17000, 17000);
+	grass = new Platform(2991.5, 47, 32, 7, 2, 17000, 17000, 17000, false);
+	objects.push_back(grass);
+
+	//ISLAND 8
+	grass = new Platform(3087.5, 79, 32, 7, 2, 17000, 17000, 17000, false);
 	objects.push_back(grass);
 	grass = new Platform(3151.5, 111, 32, 7, 2, 17000, 17000, 17000);
 	objects.push_back(grass);
@@ -863,11 +863,11 @@ void LoadResources()
 	objects.push_back(grass);
 	grass = new Platform(3311.5, 47, 32, 7, 1, 17000, 17000, 17000);
 	objects.push_back(grass);
-	grass = new Platform(3151.5, 14, 32, 7, 3, 17000, 17000, 17000);
+	grass = new Platform(3151.5, 14, 32, 7, 3, 17000, 17000, 17000, false);
 	objects.push_back(grass);
-	grass = new Platform(3247.5, 14, 32, 7, 3, 17000, 17000, 17000);
+	grass = new Platform(3247.5, 14, 32, 7, 3, 17000, 17000, 17000, false);
 	objects.push_back(grass);
-	grass = new Platform(3343.5, 14, 32, 7, 2, 17000, 17000, 17000);
+	grass = new Platform(3343.5, 14, 32, 7, 2, 17000, 17000, 17000, false);
 	objects.push_back(grass);
 
 	//Temp platform
@@ -888,6 +888,30 @@ void LoadResources()
 	objects.push_back(water);
 	water = new Water(207.5, 7, 32, 7, 3, 17002, 17002, 17003);
 	objects.push_back(water);
+
+	water = new Water(367.5, 7, 32, 7, 3, 17001, 17002, 17002);
+	objects.push_back(water);
+	water = new Water(463.5, 7, 32, 7, 3, 17002, 17002, 17002);
+	objects.push_back(water);
+	water = new Water(559.5, 7, 32, 7, 2, 17002, 17002, 17003);
+	objects.push_back(water);
+	water = new Water(686.5, 7, 32, 7, 3, 17001, 17002, 17002);
+	objects.push_back(water);
+	for (int i = 1; i <= 6; i++)
+	{
+		water = new Water(686.5 + 32 * 3 * i, 7, 32, 7, 3, 17002, 17002, 17002);
+		objects.push_back(water);
+	}
+	water = new Water(1358.5, 7, 32, 7, 2, 17002, 17002, 17003);
+	objects.push_back(water);
+
+	water = new Water(1518.5, 7, 32, 7, 3, 17001, 17002, 17002);
+	objects.push_back(water);
+	water = new Water(1614.5, 7, 32, 7, 3, 17002, 17002, 17002);
+	objects.push_back(water);
+	water = new Water(1710.5, 7, 32, 7, 1, 17003, 17003, 17003);
+	objects.push_back(water);
+
 	root = new World(0, 0, 3455, 223);
 	root->SetObjects(objects);
 	root->Build();
