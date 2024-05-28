@@ -3,19 +3,23 @@
 #include "Animation.h"
 #include "Animations.h"
 
+#define WATER_SPLASH_TIMER		250.0f
+
 #define BILL_WALKING_SPEED		0.065f
 #define BILL_JUMP_SPEED			0.225f
 #define BILL_DEFLECT_SPEED		0.1f
 
 #define BILL_STATE_IDLE					0
 #define BILL_STATE_WALKING_RIGHT		100
-#define BILL_STATE_WALKING_LEFT			200
-#define BILL_STATE_LOOKING_UP			300
-#define BILL_STATE_LYING_DOWN			400
-#define BILL_STATE_WALKING_LOOK_UP		500
-#define BILL_STATE_WALKING_LOOK_DOWN	600
-#define BILL_STATE_JUMP					700
-#define BILL_STATE_DIE					800
+#define BILL_STATE_WALKING_LEFT			110
+#define BILL_STATE_LOOKING_UP			120
+#define BILL_STATE_LYING_DOWN			130
+#define BILL_STATE_WALKING_LOOK_UP		140
+#define BILL_STATE_WALKING_LOOK_DOWN	150
+#define BILL_STATE_JUMP					160
+#define BILL_STATE_DIE					170
+#define BILL_STATE_SPLASH				180
+#define BILL_STATE_CLIMB				190
 
 
 #pragma region ANIMATION_ID
@@ -44,16 +48,44 @@
 #define ID_ANI_BILL_FREE_FALL_RIGHT	1116
 #define ID_ANI_BILL_FREE_FALL_LEFT 1117
 
+#define ID_ANI_BILL_IDLE_UNDER_WATER_RIGHT	1118
+#define ID_ANI_BILL_IDLE_UNDER_WATER_LEFT	1119
+
+#define ID_ANI_BILL_HIDE_UNDER_WATER	1120
+
+#define ID_ANI_BILL_SWIM_RIGHT	1121
+#define ID_ANI_BILL_SWIM_LEFT	1122
+
+#define ID_ANI_BILL_LAND_IN_WATER	1123
+#define ID_ANI_BILL_CLIMB_OUT_WATER_RIGHT	1124
+#define ID_ANI_BILL_CLIMB_OUT_WATER_LEFT	1125
+
+#define ID_ANI_BILL_SWIM_SHOOT_UP_RIGHT	1126	//SHOOT STRAIGHT UP
+#define ID_ANI_BILL_SWIM_SHOOT_UP_LEFT	1127	//SHOOT STRAIGHT UP
+
+#define ID_ANI_BILL_SWIM_SHOOT_TOP_RIGHT	1128
+#define ID_ANI_BILL_SWIM_SHOOT_TOP_LEFT	1129
+
+
+
 #pragma region BBOX_VALUE
 
 #define BILL_STAND_BBOX_WIDTH	24
 #define BILL_STAND_BBOX_HEIGHT	36
+
 #define BILL_LIE_DOWN_BBOX_WIDTH	32
 #define BILL_LIE_DOWN_BBOX_HEIGHT	16
+
 #define BILL_JUMP_BBOX_WIDTH	16
 #define BILL_JUMP_BBOX_HEIGHT	16
 
+#define BILL_SWIM_BBOX_WIDTH	15	//Can also be use for idle, hide, climb, land in water
+#define BILL_SWIM_BBOX_HEIGHT	15	//Can also be use for idle, hide, climb, land in water
+
+
 #define BILL_LIE_DOWN_HEIGHT_ADJUST ((BILL_STAND_BBOX_HEIGHT-BILL_LIE_DOWN_BBOX_HEIGHT)/2)
+#define BILL_SWIM_HEIGHT_ADJUST ((BILL_STAND_BBOX_HEIGHT-BILL_SWIM_BBOX_HEIGHT)/2)
+
 
 
 class CBill : public CGameObject
@@ -61,9 +93,15 @@ class CBill : public CGameObject
 private:
 	bool isGrounded;
 	bool isOnDropablePlatform;
+	bool isInWater;
+	float splashTimer;
 	void OnCollisionWithSoldier(LPCOLLISIONEVENT e);
 	void OnCollisionWithWallTurret(LPCOLLISIONEVENT e);
 	void OnCollisionWithPlatform(LPCOLLISIONEVENT e);
+	void OnCollisionWithWater(LPCOLLISIONEVENT e);
+	void GetInWaterAnimations(int& aniId, float& d);
+	void GetDefaultAnimations(int& aniId, float& d);
+	void RequestUnderWaterState(int reqState, int& finalState);
 public:
 	CBill(float x, float y) : CGameObject(x, y)
 	{
@@ -72,7 +110,9 @@ public:
 		nx = 1;
 		isGrounded = false;
 		isOnDropablePlatform = false;
+		isInWater = false;
 		isMovable = true;
+		splashTimer = WATER_SPLASH_TIMER;
 	}
 	void RequestState(int state);
 	void GetPos(float& x, float& y) { x = this->x; y = this->y; }

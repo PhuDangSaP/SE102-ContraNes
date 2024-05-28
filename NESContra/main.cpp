@@ -30,6 +30,7 @@
 
 #include "World.h"
 #include "SampleKeyEventHandler.h"
+#include "Water.h"
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
 #define MAIN_WINDOW_TITLE L"NES - Contra"
@@ -194,6 +195,23 @@ void LoadResources()
 	//LEFT
 	sprites->Add(10012, 237, 24, 220, 59, texBill);
 
+	//BILL MOVEMENT UNDER WATER
+	//IDLE, SWIM RIGHT
+	sprites->Add(10013, 90, 159, 105, 174, texBill);
+	sprites->Add(10014, 155, 159, 170, 174, texBill);
+	//IDLE, SWIM LEFT
+	sprites->Add(10015, 105, 159, 90, 174, texBill);
+	sprites->Add(10016, 170, 159, 155, 174, texBill);
+	//DIVE
+	sprites->Add(10017, 610, 167, 625, 182, texBill);
+	sprites->Add(10018, 675, 167, 690, 182, texBill);
+	//LAND IN WATER
+	sprites->Add(10019, 25, 164, 40, 179, texBill);
+	//CLIMBOUT RIGHT & LEFT
+	sprites->Add(10020, 740, 167, 755, 182, texBill);
+	sprites->Add(10021, 755, 167, 740, 182, texBill);
+	//NOTE: ADD THE REST OFF MOVEMENT UNDER WATER.
+
 	ani = new CAnimation(100);
 	ani->Add(9001);
 	animations->Add(ID_ANI_BILL_IDLE_RIGHT, ani);
@@ -315,6 +333,35 @@ void LoadResources()
 	ani = new CAnimation(75);
 	ani->Add(10012);
 	animations->Add(ID_ANI_BILL_FREE_FALL_LEFT, ani);
+
+	ani = new CAnimation(500);
+	ani->Add(10013);
+	ani->Add(10014);
+	animations->Add(ID_ANI_BILL_IDLE_UNDER_WATER_RIGHT, ani);
+	animations->Add(ID_ANI_BILL_SWIM_RIGHT, ani);
+
+	ani = new CAnimation(500);
+	ani->Add(10015);
+	ani->Add(10016);
+	animations->Add(ID_ANI_BILL_IDLE_UNDER_WATER_LEFT, ani);
+	animations->Add(ID_ANI_BILL_SWIM_LEFT, ani);
+
+	ani = new CAnimation(500);
+	ani->Add(10017);
+	ani->Add(10018);
+	animations->Add(ID_ANI_BILL_HIDE_UNDER_WATER, ani);
+
+	ani = new CAnimation(100);
+	ani->Add(10019);
+	animations->Add(ID_ANI_BILL_LAND_IN_WATER, ani);
+
+	ani = new CAnimation(100);
+	ani->Add(10020);
+	animations->Add(ID_ANI_BILL_CLIMB_OUT_WATER_RIGHT, ani);
+
+	ani = new CAnimation(100);
+	ani->Add(10021);
+	animations->Add(ID_ANI_BILL_CLIMB_OUT_WATER_LEFT, ani);
 
 	bill = new CBill(BILL_START_X - 50, BILL_START_Y + 50 + 50);
 	
@@ -667,6 +714,11 @@ void LoadResources()
 	objects.push_back(wT);
 
 	sprites->Add(17000, 31, 105, 63, 119, texLevel1); // grass
+
+	sprites->Add(17001, 352, 207, 384, 223, texLevel1); // water start
+	sprites->Add(17002, 31, 207, 63, 223, texLevel1); // water mid
+	sprites->Add(17003, 254, 207, 286, 223, texLevel1); // water end
+	
 	Platform* grass = NULL;
 	//ISLAND1
 
@@ -819,8 +871,8 @@ void LoadResources()
 	objects.push_back(grass);
 
 	//Temp platform
-	grass = new Platform(783.5, 111, 32, 7, 2, 17000, 17000, 17000);
-	//objects.push_back(grass);
+	grass = new Platform(783.5, 111, 32, 7, 2, 17000, 17000, 17000, false);
+	objects.push_back(grass);
 	grass = new Platform(847.5, 111, 32, 7, 2, 17000, 17000, 17000);
 	objects.push_back(grass);
 	grass = new Platform(1071.5, 111, 32, 7, 2, 17000, 17000, 17000);
@@ -828,11 +880,14 @@ void LoadResources()
 	grass = new Platform(1135.5, 111, 32, 7, 2, 17000, 17000, 17000);
 	objects.push_back(grass);
 	//Temp platform end
-	
-	
-
-
-
+	//Water sections
+	Water* water = NULL;
+	water = new Water(15.5, 7, 32, 7, 3, 17002, 17002, 17002);
+	objects.push_back(water);
+	water = new Water(111.5, 7, 32, 7, 3, 17002, 17002, 17002);
+	objects.push_back(water);
+	water = new Water(207.5, 7, 32, 7, 3, 17002, 17002, 17003);
+	objects.push_back(water);
 	root = new World(0, 0, 3455, 223);
 	root->SetObjects(objects);
 	root->Build();

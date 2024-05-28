@@ -147,6 +147,7 @@
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="WallTurret.cpp" />
+    <ClCompile Include="Water.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -171,6 +172,7 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="WallTurret.h" />
+    <ClInclude Include="Water.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>
