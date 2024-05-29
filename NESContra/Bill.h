@@ -5,7 +5,7 @@
 
 #define WATER_SPLASH_TIMER		250.0f
 
-#define BILL_WALKING_SPEED		0.065f
+#define BILL_WALKING_SPEED		0.05f/*0.065f*/
 #define BILL_JUMP_SPEED			0.225f
 #define BILL_DEFLECT_SPEED		0.1f
 
@@ -70,7 +70,7 @@
 
 #pragma region BBOX_VALUE
 
-#define BILL_STAND_BBOX_WIDTH	24
+#define BILL_STAND_BBOX_WIDTH	15
 #define BILL_STAND_BBOX_HEIGHT	36
 
 #define BILL_LIE_DOWN_BBOX_WIDTH	32
@@ -102,6 +102,7 @@ private:
 	void OnCollisionWithWallTurret(LPCOLLISIONEVENT e);
 	void OnCollisionWithPlatform(LPCOLLISIONEVENT e);
 	void OnCollisionWithWater(LPCOLLISIONEVENT e);
+	void OnCollisionWithBridge(LPCOLLISIONEVENT e);
 	void GetInWaterAnimations(int& aniId, float& d);
 	void GetDefaultAnimations(int& aniId, float& d);
 	void RequestUnderWaterState(int reqState, int& finalState);

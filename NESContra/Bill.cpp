@@ -4,6 +4,7 @@
 #include "WallTurret.h"
 #include "Platform.h"
 #include "Water.h"
+#include "Bridge.h"
 
 
 void CBill::Update(DWORD dt)
@@ -478,7 +479,7 @@ void CBill::OnCollisionWith(LPCOLLISIONEVENT e)
 	}
 	else if (e->nx != 0 && e->obj->IsBlocking())
 	{
-		if (!dynamic_cast<Platform*>(e->obj))
+		if (!dynamic_cast<Platform*>(e->obj) && !dynamic_cast<Bridge*>(e->obj))
 		{
 			vx = 0;
 		}
@@ -488,6 +489,8 @@ void CBill::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPlatform(e);
 	if (dynamic_cast<Water*>(e->obj))
 		OnCollisionWithWater(e);
+	if (dynamic_cast<Bridge*>(e->obj))
+		OnCollisionWithBridge(e);
 	if (dynamic_cast<CSoldier*>(e->obj))
 		OnCollisionWithSoldier(e);
 	if (dynamic_cast<CWallTurret*>(e->obj))
@@ -536,6 +539,15 @@ void CBill::OnCollisionWithPlatform(LPCOLLISIONEVENT e)
 void CBill::OnCollisionWithWater(LPCOLLISIONEVENT e)
 {
 	isInWater = true;
+}
+
+void CBill::OnCollisionWithBridge(LPCOLLISIONEVENT e)
+{
+	Bridge* b = dynamic_cast<Bridge*>(e->obj);
+	if (b->GetState() != BRIDGE_STATE_ACTIVE) return;
+	b->SetState(BRIDGE_STATE_SELF_DESTRUCT);
+	RECT r = b->GetBoundingBox();
+	b->SetStartSide(abs(x - r.left) <= abs(x - r.right));
 }
 
 void CBill::GetInWaterAnimations(int& aniId, float& d)

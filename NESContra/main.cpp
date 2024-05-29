@@ -31,6 +31,7 @@
 #include "World.h"
 #include "SampleKeyEventHandler.h"
 #include "Water.h"
+#include "Bridge.h"
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
 #define MAIN_WINDOW_TITLE L"NES - Contra"
@@ -44,16 +45,20 @@
 #define ID_TEX_PLAYER	0
 #define ID_TEX_ENEMY	10
 #define ID_TEX_TURRET	20
+#define ID_TEX_EXPLOSION	30
 #define ID_TEX_LEVEL_1 -10
+#define ID_TEX_LEVEL_1_NO_BRIDGE -11
 
 
 #define TEXTURES_DIR L"textures"
 #define TEXTURE_PATH_PLAYER TEXTURES_DIR "\\player.png"
 #define TEXTURE_PATH_ENEMY TEXTURES_DIR "\\enemy.png"
 #define TEXTURE_PATH_TURRET TEXTURES_DIR "\\turrets.gif"
+#define TEXTURE_PATH_EXPLOSION TEXTURES_DIR "\\explosions.png"
 #define TEXTURE_PATH_LEVEL_1 TEXTURES_DIR "\\level1.png"
+#define TEXTURE_PATH_LEVEL_1_NO_BRIDGE TEXTURES_DIR "\\lv1_broken_bridge.png"
 
-#define BILL_START_X 100.0f
+#define BILL_START_X 100.0f + 1000.0f
 #define BILL_START_Y 130.0f
 
 
@@ -96,10 +101,14 @@ void LoadResources()
 	textures->Add(ID_TEX_ENEMY, TEXTURE_PATH_ENEMY);
 	textures->Add(ID_TEX_TURRET, TEXTURE_PATH_TURRET);
 	textures->Add(ID_TEX_LEVEL_1, TEXTURE_PATH_LEVEL_1);
+	textures->Add(ID_TEX_LEVEL_1_NO_BRIDGE, TEXTURE_PATH_LEVEL_1_NO_BRIDGE);
+	textures->Add(ID_TEX_EXPLOSION, TEXTURE_PATH_EXPLOSION);
 	LPTEXTURE texBill = textures->Get(ID_TEX_PLAYER);
 	LPTEXTURE texEnemies = textures->Get(ID_TEX_ENEMY);
 	LPTEXTURE texTurret = textures->Get(ID_TEX_TURRET);
+	LPTEXTURE texExplosion = textures->Get(ID_TEX_EXPLOSION);
 	LPTEXTURE texLevel1 = textures->Get(ID_TEX_LEVEL_1);
+	LPTEXTURE texLevel1Extra = textures->Get(ID_TEX_LEVEL_1_NO_BRIDGE);
 	//IDLE RIGHT AND LEFT
 	sprites->Add(9001, 546, 24, 569, 59, texBill);
 	sprites->Add(9002, 569, 24, 546, 59, texBill);
@@ -423,7 +432,7 @@ void LoadResources()
 	//SECTION1
 	sprites->Add(101, 0, 0, 690, 223, texLevel1);
 	//SECTION2
-	sprites->Add(102, 691, 0, 1381, 223, texLevel1);
+	sprites->Add(102, 691, 0, 1381, 223, texLevel1Extra);
 	//SECTION3
 	sprites->Add(103, 1382, 0, 2072, 223, texLevel1);
 	//SECTION4
@@ -713,11 +722,64 @@ void LoadResources()
 	wT = new CWallTurret(1839, 102.5);
 	objects.push_back(wT);
 
+	
+
 	sprites->Add(17000, 31, 105, 63, 119, texLevel1); // grass
 
 	sprites->Add(17001, 352, 207, 384, 223, texLevel1); // water start
 	sprites->Add(17002, 31, 207, 63, 223, texLevel1); // water mid
 	sprites->Add(17003, 254, 207, 286, 223, texLevel1); // water end
+
+	sprites->Add(17004, 767, 105, 799, 135, texLevel1);//Bridge begin
+	sprites->Add(17005, 799, 105, 831, 135, texLevel1);//Bridge middle
+	sprites->Add(17006, 862, 105, 894, 135, texLevel1);//Bridge end
+	sprites->Add(17007, 767, 105, 799, 135, texLevel1Extra);//Bridge begin destroyed
+	sprites->Add(17008, 799, 105, 831, 135, texLevel1Extra);//Bridge middle destroyed
+	sprites->Add(17009, 862, 105, 894, 135, texLevel1Extra);//Bridge end destroyed
+
+	sprites->Add(17010, 0, 0, 16, 16, texExplosion);//Transparent square
+	sprites->Add(17011, 114, 9, 128, 26, texExplosion);//Explosion small
+	sprites->Add(17012, 89, 5, 111, 31, texExplosion);//Explosion medium
+	sprites->Add(17013, 57, 4, 86, 33, texExplosion);//Explosion big
+
+	ani = new CAnimation(100);
+	ani->Add(17011);
+	ani->Add(17012);
+	ani->Add(17013);
+	ani->Add(17012);
+	ani->Add(17011);
+	ani->Add(17010);
+	animations->Add(ID_ANI_BRIDGE_EXPLOSION_LEFT, ani);
+
+	ani = new CAnimation(100);
+	ani->Add(17010);
+	ani->Add(17011);
+	ani->Add(17012);
+	ani->Add(17013);
+	ani->Add(17012);
+	ani->Add(17011);
+	animations->Add(ID_ANI_BRIDGE_EXPLOSION_TOP, ani);
+
+	ani = new CAnimation(100);
+	ani->Add(17010);
+	ani->Add(17010);
+	ani->Add(17011);
+	ani->Add(17012);
+	ani->Add(17013);
+	ani->Add(17012);
+	ani->Add(17011);
+	animations->Add(ID_ANI_BRIDGE_EXPLOSION_RIGHT, ani);
+
+	ani = new CAnimation(100);
+	ani->Add(17010);
+	ani->Add(17010);
+	ani->Add(17010);
+	ani->Add(17011);
+	ani->Add(17012);
+	ani->Add(17013);
+	ani->Add(17012);
+	ani->Add(17011);
+	animations->Add(ID_ANI_BRIDGE_EXPLOSION_CENTER, ani);
 	
 	Platform* grass = NULL;
 	//ISLAND1
@@ -870,16 +932,6 @@ void LoadResources()
 	grass = new Platform(3343.5, 14, 32, 7, 2, 17000, 17000, 17000, false);
 	objects.push_back(grass);
 
-	//Temp platform
-	grass = new Platform(783.5, 111, 32, 7, 2, 17000, 17000, 17000, false);
-	objects.push_back(grass);
-	grass = new Platform(847.5, 111, 32, 7, 2, 17000, 17000, 17000);
-	objects.push_back(grass);
-	grass = new Platform(1071.5, 111, 32, 7, 2, 17000, 17000, 17000);
-	objects.push_back(grass);
-	grass = new Platform(1135.5, 111, 32, 7, 2, 17000, 17000, 17000);
-	objects.push_back(grass);
-	//Temp platform end
 	//Water sections
 	Water* water = NULL;
 	water = new Water(15.5, 7, 32, 7, 3, 17002, 17002, 17002);
@@ -911,6 +963,12 @@ void LoadResources()
 	objects.push_back(water);
 	water = new Water(1710.5, 7, 32, 7, 1, 17003, 17003, 17003);
 	objects.push_back(water);
+
+	Bridge* bridge = NULL;
+	bridge = new Bridge(783.5, 102, 32, 25, 4);
+	objects.push_back(bridge);
+	bridge = new Bridge(1071.5, 102, 32, 25, 4);
+	objects.push_back(bridge);
 
 	root = new World(0, 0, 3455, 223);
 	root->SetObjects(objects);
