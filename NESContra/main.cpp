@@ -58,8 +58,7 @@
 #define TEXTURE_PATH_LEVEL_1 TEXTURES_DIR "\\level1.png"
 #define TEXTURE_PATH_LEVEL_1_NO_BRIDGE TEXTURES_DIR "\\lv1_broken_bridge.png"
 
-#define BILL_START_X 100.0f + 1000.0f
-#define BILL_START_Y 130.0f
+
 
 
 CBill* bill = NULL;
@@ -742,7 +741,7 @@ void LoadResources()
 	sprites->Add(17012, 89, 5, 111, 31, texExplosion);//Explosion medium
 	sprites->Add(17013, 57, 4, 86, 33, texExplosion);//Explosion big
 
-	ani = new CAnimation(100);
+	ani = new CAnimation(150);
 	ani->Add(17011);
 	ani->Add(17012);
 	ani->Add(17013);
@@ -751,7 +750,7 @@ void LoadResources()
 	ani->Add(17010);
 	animations->Add(ID_ANI_BRIDGE_EXPLOSION_LEFT, ani);
 
-	ani = new CAnimation(100);
+	ani = new CAnimation(150);
 	ani->Add(17010);
 	ani->Add(17011);
 	ani->Add(17012);
@@ -760,7 +759,7 @@ void LoadResources()
 	ani->Add(17011);
 	animations->Add(ID_ANI_BRIDGE_EXPLOSION_TOP, ani);
 
-	ani = new CAnimation(100);
+	ani = new CAnimation(150);
 	ani->Add(17010);
 	ani->Add(17010);
 	ani->Add(17011);
@@ -770,7 +769,7 @@ void LoadResources()
 	ani->Add(17011);
 	animations->Add(ID_ANI_BRIDGE_EXPLOSION_RIGHT, ani);
 
-	ani = new CAnimation(100);
+	ani = new CAnimation(150);
 	ani->Add(17010);
 	ani->Add(17010);
 	ani->Add(17010);

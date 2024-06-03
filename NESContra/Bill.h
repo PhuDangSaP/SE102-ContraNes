@@ -8,6 +8,8 @@
 #define BILL_WALKING_SPEED		0.05f/*0.065f*/
 #define BILL_JUMP_SPEED			0.225f
 #define BILL_DEFLECT_SPEED		0.1f
+#define BILL_START_X 100.0f + 900.0f
+#define BILL_START_Y 130.0f
 
 #define BILL_STATE_IDLE					0
 #define BILL_STATE_WALKING_RIGHT		100

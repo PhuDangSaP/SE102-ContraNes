@@ -5,7 +5,7 @@
 #define	BRIDGE_STATE_SELF_DESTRUCT	1
 #define	BRIDGE_STATE_DESTROYED	2
 
-#define DESTROY_TIMER	750.0f
+#define DESTROY_TIMER	600.0f
 #define ID_SPRITE_BRIDGE_BEGIN	17004
 #define ID_SPRITE_BRIDGE_MID	17005
 #define ID_SPRITE_BRIDGE_END	17006
@@ -22,33 +22,32 @@ class Bridge :public CGameObject
 {
 protected:
 	int length;				// Unit: cell 
+	int originalLength;
 	int cellDestroyed;
 	float destroyTimer;
 	float cellWidth;
 	float cellHeight;
 	int spriteIdBegin, spriteIdMiddle, spriteIdEnd;
-	bool isStartFromLeftSide;
 public:
 	Bridge(float x, float y,
 		float cell_width, float cell_height, int length) :CGameObject(x, y)
 	{
 		this->length = length;
+		this->originalLength = length;
 		this->cellWidth = cell_width;
 		this->cellHeight = cell_height;
 		this->spriteIdBegin = ID_SPRITE_BRIDGE_BEGIN;
 		this->spriteIdMiddle = ID_SPRITE_BRIDGE_MID;
 		this->spriteIdEnd = ID_SPRITE_BRIDGE_END;
 		this->cellDestroyed = 0;
-		this->destroyTimer = DESTROY_TIMER - 450;
+		this->destroyTimer = DESTROY_TIMER;
 		this->state = BRIDGE_STATE_ACTIVE;
-		this->isStartFromLeftSide = true;
 	}
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 	RECT GetRect();
 	RECT GetBoundingBox();
 	void RenderBoundingBox();
-	void SetStartSide(bool isStartFromLeftSide) { this->isStartFromLeftSide = isStartFromLeftSide; };
 	int IsBlocking() { return (state == BRIDGE_STATE_DESTROYED) ? 0 : 1; }
 	int IsDirectionColliable(float nx, float ny);
 };

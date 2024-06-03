@@ -111,7 +111,7 @@ void CBill::RequestState(int reqState)
 				}
 				break;
 			case BILL_STATE_JUMP:
-				if (isGrounded)
+				if (isGrounded && !isInWater)
 				{
 					vy += BILL_JUMP_SPEED;
 					isGrounded = false;
@@ -151,9 +151,12 @@ void CBill::RequestState(int reqState)
 				finalState = BILL_STATE_WALKING_LOOK_DOWN;
 				break;
 			case BILL_STATE_JUMP:
-				vy += BILL_JUMP_SPEED;
-				isGrounded = false;
-				finalState = reqState;
+				if (isGrounded && !isInWater)
+				{
+					vy += BILL_JUMP_SPEED;
+					isGrounded = false;
+					finalState = reqState;
+				}
 				break;
 			}
 			break;
@@ -188,9 +191,12 @@ void CBill::RequestState(int reqState)
 				finalState = BILL_STATE_WALKING_LOOK_DOWN;
 				break;
 			case BILL_STATE_JUMP:
-				vy += BILL_JUMP_SPEED;
-				isGrounded = false;
-				finalState = reqState;
+				if (isGrounded && !isInWater)
+				{
+					vy += BILL_JUMP_SPEED;
+					isGrounded = false;
+					finalState = reqState;
+				}
 				break;
 			}
 			break;
@@ -227,9 +233,12 @@ void CBill::RequestState(int reqState)
 				finalState = reqState;
 				break;
 			case BILL_STATE_JUMP:
-				vy += BILL_JUMP_SPEED;
-				isGrounded = false;
-				finalState = reqState;
+				if (isGrounded && !isInWater)
+				{
+					vy += BILL_JUMP_SPEED;
+					isGrounded = false;
+					finalState = reqState;
+				}
 				break;
 			}
 			break;
@@ -305,9 +314,12 @@ void CBill::RequestState(int reqState)
 				finalState = BILL_STATE_WALKING_LOOK_DOWN;
 				break;
 			case BILL_STATE_JUMP:
-				vy += BILL_JUMP_SPEED;
-				isGrounded = false;
-				finalState = reqState;
+				if (isGrounded && !isInWater)
+				{
+					vy += BILL_JUMP_SPEED;
+					isGrounded = false;
+					finalState = reqState;
+				}
 				break;
 			}
 			break;
@@ -340,9 +352,12 @@ void CBill::RequestState(int reqState)
 				finalState = reqState;
 				break;
 			case BILL_STATE_JUMP:
-				vy += BILL_JUMP_SPEED;
-				isGrounded = false;
-				finalState = reqState;
+				if (isGrounded && !isInWater)
+				{
+					vy += BILL_JUMP_SPEED;
+					isGrounded = false;
+					finalState = reqState;
+				}
 				break;
 			}
 			break;
@@ -546,8 +561,6 @@ void CBill::OnCollisionWithBridge(LPCOLLISIONEVENT e)
 	Bridge* b = dynamic_cast<Bridge*>(e->obj);
 	if (b->GetState() != BRIDGE_STATE_ACTIVE) return;
 	b->SetState(BRIDGE_STATE_SELF_DESTRUCT);
-	RECT r = b->GetBoundingBox();
-	b->SetStartSide(abs(x - r.left) <= abs(x - r.right));
 }
 
 void CBill::GetInWaterAnimations(int& aniId, float& d)
